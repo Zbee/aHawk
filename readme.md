@@ -7,7 +7,8 @@ only keeps a day's worth of checks.
 
 Additionally, aHawk doesn't rely on a make-once-distribute-forever type of idea 
 for the list of realms and items; instead it periodically checks for updates to 
-these lists and, because of this it supports WoW patches with little delay.
+these lists and, because of this it supports WoW patches with little delay and 
+zero involvement.
 
 ##Why
 aHawk (should always be typed `aHawk`, should always be said `a hawk`, derives 
@@ -67,6 +68,9 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [X] Add items
   - [X] Check on items
   - [ ] Use JS to keep the time from/to updates accurate
+  - [ ] Determine player with largest share of an item
+  - [ ] Indicate coverage of an item (100%=tracking all day or longer, less%=
+  started tracking sometime in last 24 hours)
 - [ ] Notifications
   - [ ] Subscribe to items
   - [ ] Get notifications from subscriptions
