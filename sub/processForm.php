@@ -2,6 +2,10 @@
 require_once('../assets/php/config.php');
 
 #Accounting for form fields
+if (!isset($_GET['item'])) 
+  throw new Exception('Form was tampered with ' . __LINE__);
+if (!isset($_GET['realm'])) 
+  throw new Exception('Form was tampered with ' . __LINE__);
 if (!isset($_POST['subEmail'])) 
   throw new Exception('Form was tampered with ' . __LINE__);
 if (!isset($_POST['subIFTTTName'])) 
@@ -14,7 +18,13 @@ if (!isset($_POST['subAPIEmail']))
 #Replace their data (without any scripts) if the form wasn't tampered with
 $repForm = [];
 foreach ($_POST as $key => $post)
-  $repForm[$key] = strip_tags($post);
+  $repForm[$key] = strip_tags(str_replace('\'', '&#39;', $post));
+
+#Can't let either of these be empty for sure
+if ($_GET['itemID'] == '')
+  throw new Exception('Item ID cannot be empty ' . __LINE__);
+if ($_GET['realm'] == '')
+  throw new Exception('Realm name cannot be empty ' . __LINE__);
 
 #There needs to be some sort of subscription
 if (!isset($_POST['subEmailYes']) && !isset($_POST['subIFTTTYes']) 
@@ -46,6 +56,22 @@ if (isset($_POST['subAPIYes'])) {
   );
 }
 
+#Verifying that the item ID matches an item
+$item = intval($_GET['item']);
+if ($item != $_GET['item'])
+  throw new Exception('Only integers in item ID ' . __LINE__);
+$fileExists = file_exists('../assets/data/items/' . $item . '.dat');
+if (!$fileExists) throw new Exception('That is not a real item ' . __LINE__);
+$itemName = file_get_contents('../assets/data/items/' . $item . '.dat');
+
+#Verifying realm name
+$realm = preg_replace('/^[^(\w\-\' )]+$/i', '', $_GET['realm']);
+if ($realm != $_GET['realm']) 
+  throw new Exception('Not a valid realm name ' . __LINE__);
+$search = $controller->select('realms', ['name' => $realm]);
+if (!is_array($search) && count($search) === 1) 
+  throw new Exception('Not a realm ' . __LINE__);
+
 #Verifying data on a per-subscription basis
 if (isset($_POST['subEmailYes'])) {
   if (!filter_var($_POST['subEmail'], FILTER_VALIDATE_EMAIL))
@@ -72,3 +98,10 @@ if (isset($_POST['subAPIYes'])) {
   if (!filter_var($_POST['subAPIEmail'], FILTER_VALIDATE_EMAIL))
     throw new Exception('This is not a valid email address' . __LINE__);
 }
+
+#Record the check if it doesn't already exist
+$search = $controller->select('checks', ['realm' => $realm, 'item' => $item]);
+if (is_array($search) && count($search) === 1)
+  throw new Exception('This item is already being tracked ' . __LINE__);
+$controller->insert('checks', ['realm' => $realm, 'item' => $item]);
+throw new Exception('This item is now being tracked');
