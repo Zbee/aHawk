@@ -27,6 +27,7 @@ only keeps a day's worth of checks.
   - [ ] API endpoint for entire realm's items
   - [ ] API endpoint for item across all realms
 - [ ] Security
+  - [ ] Require HTTPS
   - [ ] Access to page support scripts
   - [ ] Access to Python
   - [ ] Access to PHP

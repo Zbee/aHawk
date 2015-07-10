@@ -57,7 +57,11 @@ $seventyTwo = '';
 for ($i = 1; $i <= 72; $i++) {
   $check = file_get_contents('../assets/data/checks/check' . $i . '.dat');
   $check = json_decode($check);
-  $quantity = $check->$realm->$itemID->quantity[0];
+  if (isset($check->$realm->$itemID)) {
+    $quantity = $check->$realm->$itemID->quantity[0];
+  } else {
+    $quantity = 0;
+  }
   $seventyTwo .= ', ' . $quantity;
 }
 $seventyTwo = substr($seventyTwo, 2);
