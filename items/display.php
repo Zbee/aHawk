@@ -42,7 +42,8 @@ $availability = $controller->availabilityOf($itemID, $realm);
 
 echo '<div class="left">Available</div><div class="right">';
 echo $availability->available === true ? "Yes" : "No";
-echo '<a href="/sub?to=' . $itemID . '" class="right">Suscribe</a>';
+echo '<a href="/sub?to=' . $itemID . '&realm=' . $realm . '" class="right">'
+  . 'Suscribe</a>';
 echo '</div><br>';
 
 echo '<div class="left">Lowest Price Per Item</div><div class="right">';

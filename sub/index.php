@@ -1,13 +1,26 @@
 <?php
-if (!isset($_GET['to'])) {
+if (!isset($_GET['to'])) || !isset($_GET['realm'])) {
   header('HTTP/1.1 301 Moved Permanently');
   header('Location: /');
 }
 
 require('../assets/php/config.php');
 
+$realm = preg_replace('/[^\w\'\- ]+/i', '', $_GET['realm'])
+
+$realmExists = $controller->select('realms', ['name' => $_POST['realm']]);
+
+$realmExists = count($realmExists) === 1 ? true : false;
+
+if (!$realmExists) {
+  header('HTTP/1.1 301 Moved Permanently');
+  header('Location: /');
+}
+
+$item = intval($_GET['to']);
+
 $itemExists = file_exists(
-  __DIR__ . '/../assets/data/items/' . intval($_GET['to']) . '.dat'
+  __DIR__ . '/../assets/data/items/' . $item . '.dat'
 );
 
 if (!$itemExists) {
@@ -15,9 +28,13 @@ if (!$itemExists) {
   header('Location: /');
 }
 
+$itemName = file_get_contents(
+  __DIR__ . '/../assets/data/items/' . $item . '.dat'
+);
+
 $error = '';
 
-if (isset($_POST['itemID'])) {
+if (isset($_POST['subEmail'])) {
   try {
     require('processForm.php');
   } catch (Exception $e) {
@@ -41,7 +58,7 @@ if (isset($_POST['itemID'])) {
   <body>
 
     <div id='main'>
-      <h1><a href='/'>aHawk</a> :: Subscribe</h1>
+      <h1><a href='/'>aHawk</a> :: Subscribe :: <?=$itemName?></h1>
       <?=$error?>
       Once you submit this form, you will be subscribed to a tracked item.
       <br>
@@ -49,7 +66,7 @@ if (isset($_POST['itemID'])) {
       <a href='/api'>API page</a> (<a href='/api/Eitrigg/21877.JSON'>JSON</a>,
       and <a href='/api/Eitrigg/21877.RSS'>RSS</a>).
       <br><br>
-      <form action='' method='post'>
+      <form action='?item=<?=$item?>&$realm=<?=$realm?>' method='post'>
         <abbr title='Must subscribe in some way'>Notification Subscription</abbr>
         <b id='subGood'></b>
         <br>
