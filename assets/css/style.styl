@@ -1,0 +1,147 @@
+/* $ stylus -c < style.styl > style.css */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+bgColor = #F2E8DD
+color = #734834
+fgColor = #4E3E35
+fgColorBox = rgba(78, 62, 53, 0.25)
+
+border-radius()
+  -webkit-border-radius arguments
+  -moz-border-radius arguments
+  border-radius arguments
+
+box-shadow()
+  -webkit-box-shadow arguments
+  -moz-box-shadow arguments
+  box-shadow arguments
+
+body
+  padding 0px
+  font 110% 'Roboto', sans-serif
+  color fgColor
+  background bgColor
+h2
+  margin-bottom 0
+a, b, h1, u, .colored
+  color color
+  font-size 110% !important
+.endpoint
+  color color
+  cursor pointer
+  font-size 90%
+.endpoint:before
+  content "["
+.endpoint:after
+  content " ]"
+a, input[type='submit']
+  background none
+  border none
+  text-decoration none
+  margin 0
+  padding 0
+  font-family inherit
+  font-size inherit
+  display inline-block
+  color color
+  text-decoration none
+  border-bottom 1px dashed color
+  cursor pointer
+a:hover, input[type='submit']:hover
+  border-bottom-style solid
+a.none, a.none:hover
+  border none !important
+.alert, .info
+  border-bottom 1px dashed color
+  border-right 3px solid color
+  border-left 3px solid color
+  border-top 1px dashed color
+  width 95%
+  padding 5px
+  margin-top 5px
+.histogram
+  width auto
+  padding 0
+  margin 0
+  display inline-block
+  overflow-x hidden
+  overflow-y hidden
+  font 14px monospace
+  background lightgrey
+  color color
+  height 86px
+.info
+  display none
+  font-size 90%
+  u
+    color #616161
+  .left
+    width 100%
+    display block
+    font-weight 700
+  .right
+    width 100%
+    display block
+    .right
+      float right
+      display inline-block
+      width auto
+  pre
+    display inline-block
+    margin 0
+#main
+  margin 0px auto
+  border-radius 20px
+  padding 20px
+  width 70%
+  height auto
+  box-shadow 0px 0px 30px 1px fgColorBox
+  text-align center
+form
+  display inline-block
+input[type='text'], input[type='text']:focus,
+input[type='number'], input[type='number']:focus,
+input[type='email'], input[type='email']:focus
+  border none
+  outline none
+  background none
+  padding 5px 15px
+  margin 1px
+  box-shadow 0px 0px 3px 1px rgba(50, 50, 50, 0.2)
+
+@media screen and (min-width: 980px)
+  body
+    padding 50px
+  #main
+    width 40%
+    /**/
+    background url('/assets/img/side.png') no-repeat bottom right
+    padding-right 140px
+    /**/
+  input[type='text'], input[type='text']:focus,
+  input[type='number'], input[type='number']:focus,
+  input[type='email'], input[type='email']:focus
+    width 300px
+  .info
+    .left
+      width 25%
+      display inline-block
+      float left
+    .right
+      width 74%
+      display inline-block
+
+@media screen and (max-width: 500px)
+  #main
+    box-shadow none
+    padding none
+.muted, .disabled
+  opacity: 0.6
+  font-size 90%
+.muted:hover
+  opacity: 1
+.disabled, .disabled:hover, .disabled input
+  cursor not-allowed
+.highcharts-button
+  display none
