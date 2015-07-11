@@ -14,8 +14,9 @@ $urlO = $url = strip_tags(str_replace('\'', '&#39;', implode('/', $url)));
 
 if (strpos($url, '.JSON') !== false) $endpoint = 'json';
 if (strpos($url, 'availabilityOf/') !== false) $endpoint = 'availOf';
+if (strpos($url, 'quantityOf/') !== false) $endpoint = 'quantOf';
 
-if ($endpoint !== 'json' && $endpoint !== 'availOf')
+if ($endpoint == '')
   die(
     json_encode(
       [

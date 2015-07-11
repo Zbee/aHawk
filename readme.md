@@ -82,7 +82,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [X] API tokens
   - [ ] API IP management
   - [X] API /availabilityOf/ endpoint
-  - [ ] API /quantityOf/ endpoint
+  - [X] API /quantityOf/ endpoint
   - [ ] API /lowestPricePer/ endpoint
   - [ ] API /everythingAbout/ endpoint
   - [ ] API rate-limiting
