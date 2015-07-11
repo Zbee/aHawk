@@ -47,10 +47,18 @@ if (is_string($availability)) {
   $availability->quantity = [0, ''];
 }
 
-echo '<div class="left">Available</div><div class="right">';
-echo $availability->available === true ? "Yes" : "No";
+echo '<div class="left">Time of AH snapshot</div><div class="right">';
+echo '<a href="https://xkcd.com/1179/" target="_blank">';
+echo $availability->time !== 0
+  ? date("Y-m-d\TH:i", $availability->time)
+  : '((3x3)x(111+1)-1)x0/3';
+echo '</a>';
 echo '<a href="/sub?to=' . $itemID . '&realm=' . $realm . '" class="right">'
   . 'Suscribe</a>';
+echo '</div><br>';
+
+echo '<div class="left">Available</div><div class="right">';
+echo $availability->available === true ? "Yes" : "No";
 echo '</div><br>';
 
 echo '<div class="left">Lowest Price Per Item</div><div class="right">';
