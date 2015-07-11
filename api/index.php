@@ -137,7 +137,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subLowest'>
           GET <b>/lowestPricePer/</b>
           <i>lowestPricePer/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span>
+        </span> (works)
         <div class='info' id='subLowest'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -169,7 +169,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subQuantity'>
           GET <b>/quantityOf/</b>
           <i>quantityOf/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span>
+        </span> (works)
         <div class='info' id='subQuantity'>
           <div class='left'>Parameters</div>
           <div class='right'>

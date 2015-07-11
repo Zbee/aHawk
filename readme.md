@@ -83,7 +83,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [ ] API IP management
   - [X] API /availabilityOf/ endpoint
   - [X] API /quantityOf/ endpoint
-  - [ ] API /lowestPricePer/ endpoint
+  - [X] API /lowestPricePer/ endpoint
   - [ ] API /everythingAbout/ endpoint
   - [ ] API rate-limiting
   - [ ] API endpoint for entire realm's items
