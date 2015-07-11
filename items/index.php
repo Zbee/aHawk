@@ -35,17 +35,37 @@
       <div style='text-align:left'>
         <?php
         $checks = $controller->select('checks', '*');
+        $aRealms = [];
+        $realms = [];
+        $items = [];
         foreach ($checks as $check) {
           $check = explode(',', $check);
-          $realm = $check[1];
-          $itemID = $item = intval($check[2]);
-          $item = file_get_contents('../assets/data/items/' . $item . '.dat');
-          echo '<span class="endpoint" toggle="' . $itemID . '" item="' . $item
-            . '" realm="' . $realm . '">' . $realm . ' / <b>' . $item
-            . '</b></span><br>';
+          $realm = preg_replace('/[^\w\'\- ]+/i', '', $check[1]);
+          $realmS = preg_replace('/[^a-zA-Z0-9]+/i', '', $check[1]);
+          $aRealms[$realmS] = $realm;
+          $item = intval($check[2]);
+          $itemName = file_get_contents(
+            '../assets/data/items/' . $item . '.dat'
+          );
+          $items[$item] = $itemName;
+          $itemName = preg_replace('/[^a-zA-Z0-9]+/i', '', $itemName);
+          if (!isset($realms[$realm]))
+            $realms[$realm] = [];
+          $realms[$realm][$itemName] = $item;
+        }
+        ksort($realms);
+        foreach ($realms as $realm => $checks) {
+          ksort($checks);
+          $realm = $aRealms[$realm];
+          foreach ($checks as $itemID) {
+            $item = $items[$itemID];
+            echo '<span class="endpoint" toggle="' . $itemID . '" item="'
+              . $item . '" realm="' . $realm . '">' . $realm . ' / <b>' . $item
+              . '</b></span><br>';
 
-          $availability = $controller->availabilityOf($itemID, $realm);
-          echo '<div class="info" id="' . $itemID . '">Loading...</div>';
+            $availability = $controller->availabilityOf($itemID, $realm);
+            echo '<div class="info" id="' . $itemID . '">Loading...</div>';
+          }
         }
         ?>
       </div>
