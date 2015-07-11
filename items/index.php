@@ -10,8 +10,8 @@
     <meta name='viewport' content='width=device-width,initial-scale=1'>
     <link rel='stylesheet' href='/assets/css/style.css' />
     <script src='/assets/js/jquery.js'></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="/assets/js/highcharts.js"></script>
+    <script src="/assets/js/exporting.js"></script>
   </header>
 
   <body>
@@ -25,10 +25,6 @@
       <?=$l=intval((time()-filemtime('../assets/data/checks/check1.dat'))/60)?>
       min ago; Next check:
       <?=checkEvery-$l?> min from now.
-      <?php
-      if ($l > checkEvery+1)
-        exec('python ' . $pyDir . '/checkers.py > /dev/null 2>/dev/null &');
-      ?>
       <br>
       <b>
         [

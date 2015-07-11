@@ -40,6 +40,12 @@ $realm = strip_tags(str_replace('\'', '&#39;', $_POST['realm']));
 
 $availability = $controller->availabilityOf($itemID, $realm);
 
+if (is_string($availability)) {
+  $availability->available = false;
+  $availability->lowestPricePer = 0;
+  $availability->quantity = [0, ''];
+}
+
 echo '<div class="left">Available</div><div class="right">';
 echo $availability->available === true ? "Yes" : "No";
 echo '<a href="/sub?to=' . $itemID . '&realm=' . $realm . '" class="right">'
