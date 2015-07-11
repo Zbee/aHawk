@@ -88,7 +88,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
           </a>
           <br>
           <div class='left'>Example Response</div>
-          <pre><?=@file_get_contents(website . '/api/Eitrigg/21877.RSS')?></pre>
+          <pre>{"available":true,"time":1436580671}</pre>
         </div>
       </div>
       <br>
@@ -105,7 +105,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subAvail'>
           GET <b>/availabilityOf/</b>
           <i>availabilityOf/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span>
+        </span> (works)
         <div class='info' id='subAvail'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -124,13 +124,13 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
           <div class='left'>Example URL</div>
           <div class='right'>
             <a href='#requiresSub'>
-              /api/availabilityOf/Eitrigg/21877/now?token=19mc849uas
+              /api/availabilityOf/Eitrigg/21877/now?token=e616557c46
             </a>
           </div>
           <br>
           <div class='left'>Example Response</div>
           <div class='right'>
-            <pre>{'time': 120586, 'available': true}</pre>
+            <pre>{"available":true,"time":1436580671}</pre>
           </div>
         </div>
         <br>

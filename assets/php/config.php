@@ -1,5 +1,8 @@
 <?php
 
+if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+  $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+
 require_once(__DIR__ . '/controller.php');
 
 #Your website, no trailing slash (<website>/assets/php/cron.pp should be valid)

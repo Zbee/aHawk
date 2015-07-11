@@ -79,9 +79,9 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
 - [ ] API
   - [X] API JSON endpoint
   - [ ] API RSS endpoint
-  - [ ] API tokens
+  - [X] API tokens
   - [ ] API IP management
-  - [ ] API /availabilityOf/ endpoint
+  - [X] API /availabilityOf/ endpoint
   - [ ] API /quantityOf/ endpoint
   - [ ] API /lowestPricePer/ endpoint
   - [ ] API /everythingAbout/ endpoint

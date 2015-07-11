@@ -35,6 +35,7 @@ class controller {
     if (is_array($search)) {
       #if ($debug) var_dump($search);
       foreach ($data as $row) {
+        $row = trim($row);
         $cells = explode(',', $row);
         $yes = false;
         foreach ($search as $col => $match) {
@@ -122,7 +123,9 @@ class controller {
     return $curID+1;
   }
 
-  public function availabilityOf ($item, $realm) {
+  public function availabilityOf ($item, $realm, $time = false) {
+    $inADay = (60/checkEvery-1)*24;
+
     $realm = $this->select('realms', ['name' => $realm]);
 
     if (count($realm) === 0)
@@ -137,14 +140,61 @@ class controller {
     $realm = preg_replace('/[^a-zA-Z\'\-_ ]+/i', '', $realm)[0];
     $item = $item + '';
 
-    $check = file_get_contents(__DIR__ . '/../data/checks/check1.dat');
-    $check = json_decode($check);
-    
-    if (isset($check->$realm->$item)) {
-      return $check->$realm->$item;
-    } else {
-      return 'not being tracked';
+    if (strtolower($time) === 'today') $time = 'today';
+    if (intval($time) == $time) {
+      $time = round(intval($time)/checkEvery)*checkEvery;
+      if ($time > $inADay*checkEvery)
+        $time = $inADay*checkEvery;
     }
+
+    if ((!is_numeric($time) && $time !== 'today') || $time == false)
+      $time = 'now';
+
+    $ago = ['now' => 1];
+    for ($x = 1; $x <= $inADay; $x++) $ago[$x*checkEvery] = $x;
+
+    if (is_numeric($time) || $time == 'now') {
+      $check = $ago[$time];
+
+      $check = file_get_contents(
+        __DIR__ . '/../data/checks/check' . $check . '.dat'
+      );
+      $check = json_decode($check);
+      
+      if (isset($check->$realm->$item)) {
+        $return = $check->$realm->$item;
+        $return->time = isset($check->$realm->time)
+          ? $check->$realm->time
+          : 0;
+        return $return;
+      } else {
+        return 'not being tracked';
+      }
+    } else {
+      $return = new stdClass;
+      $return->available = [];
+      $item = "$item";
+
+      for ($x = 1; $x <= $inADay; $x++) {
+        $check = file_get_contents(
+          __DIR__ . '/../data/checks/check' . $x . '.dat'
+        );
+        $check = json_decode($check);
+        
+        if (isset($check->$realm->$item)) {
+          $return->available[$x] = $check->$realm->$item;
+          $return->available[$x]->time = isset($check->$realm->time)
+            ? $check->$realm->time
+            : 0;
+        } else {
+          $return->available[$x] = 'did not get recorded here';
+        }
+      }
+
+      return $return;
+    }
+
+    return '$time accepts "now", "today", and integers only';
   }
 
 }
