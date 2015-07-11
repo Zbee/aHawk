@@ -29,8 +29,8 @@ def stackDenotation (item, byStack):
 #Getting blizzKey from php config file
 config = open("../php/config.php", "r")
 config = config.readlines()
-blizzKey = config[8].split("'")[3]
-checkEvery = int(config[20].split(", ")[1].split(")")[0])
+blizzKey = config[11].split("'")[3]
+checkEvery = int(config[23].split(", ")[1].split(")")[0])
 
 #Echoing settings for debug
 if debug:
@@ -57,39 +57,42 @@ for realm, items in byRealm.iteritems():
   try:
     json = opener.open(req)
     data = simplejson.load(json)
-    if float(data["files"][0]["lastModified"]) > time.time()-60*60*checkEvery:
-      req = urllib2.Request(data["files"][0]["url"])
-      opener = urllib2.build_opener()
-      try:
-        json = opener.open(req)
-        data = simplejson.load(json)
-        auctions = data["auctions"]["auctions"]
-        byStack = {}
-        lowestPricePer = {}
-        for auction in auctions:
-          if int(auction["item"]) in items:
-            if int(auction["item"]) not in lowestPricePer:
-              lowestPricePer[int(auction["item"])] = 10000000000000000000000
-            if auction["buyout"] == 0:
-              lpp = int(auction["bid"])
-            else:
-              lpp = int(auction["buyout"])
-            lpp /= int(auction["quantity"])
-            if lpp < lowestPricePer[int(auction["item"])]:
-              lowestPricePer[int(auction["item"])] = lpp
-            if int(auction["item"]) not in byStack:
-              byStack[int(auction["item"])] = {}
-            if int(auction["quantity"]) not in byStack[int(auction["item"])]:
-              byStack[int(auction["item"])][int(auction["quantity"])] = 0
-            byStack[int(auction["item"])][int(auction["quantity"])] += 1
-        for item in items:
-          qDenote = stackDenotation(int(item), byStack)
-          available = False
-          if qDenote[0] > 0:
-            available = True
-          output[realm][int(item)] = {"available": available, "lowestPricePer": lowestPricePer[item], "quantity": qDenote}
-      except urllib2.HTTPError as e:
-        print e
+    lMod = int(data["files"][0]["lastModified"]/1000)
+    if debug:
+      print "Doing realm:              " + realm
+    req = urllib2.Request(data["files"][0]["url"])
+    opener = urllib2.build_opener()
+    try:
+      json = opener.open(req)
+      data = simplejson.load(json)
+      auctions = data["auctions"]["auctions"]
+      byStack = {}
+      lowestPricePer = {}
+      for auction in auctions:
+        if int(auction["item"]) in items:
+          if int(auction["item"]) not in lowestPricePer:
+            lowestPricePer[int(auction["item"])] = 10000000000000000000000
+          if auction["buyout"] == 0:
+            lpp = int(auction["bid"])
+          else:
+            lpp = int(auction["buyout"])
+          lpp /= int(auction["quantity"])
+          if lpp < lowestPricePer[int(auction["item"])]:
+            lowestPricePer[int(auction["item"])] = lpp
+          if int(auction["item"]) not in byStack:
+            byStack[int(auction["item"])] = {}
+          if int(auction["quantity"]) not in byStack[int(auction["item"])]:
+            byStack[int(auction["item"])][int(auction["quantity"])] = 0
+          byStack[int(auction["item"])][int(auction["quantity"])] += 1
+      for item in items:
+        qDenote = stackDenotation(int(item), byStack)
+        available = False
+        if qDenote[0] > 0:
+          available = True
+        output[realm][int(item)] = {"available": available, "lowestPricePer": lowestPricePer[item], "quantity": qDenote}
+      output[realm]["time"] = lMod
+    except urllib2.HTTPError as e:
+      print e
   except urllib2.HTTPError as e:
     print e
 

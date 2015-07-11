@@ -1,14 +1,14 @@
 <?php
-if (!isset($_GET['to'])) || !isset($_GET['realm'])) {
+if (!isset($_GET['to']) || !isset($_GET['realm'])) {
   header('HTTP/1.1 301 Moved Permanently');
   header('Location: /');
 }
 
 require('../assets/php/config.php');
 
-$realm = preg_replace('/[^\w\'\- ]+/i', '', $_GET['realm'])
+$realm = preg_replace('/[^\w\'\- ]+/i', '', $_GET['realm']);
 
-$realmExists = $controller->select('realms', ['name' => $_POST['realm']]);
+$realmExists = $controller->select('realms', ['name' => $realm]);
 
 $realmExists = count($realmExists) === 1 ? true : false;
 
