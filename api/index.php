@@ -46,7 +46,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='pubAvail'>
           GET <b>Availability JSON</b>
           <i>&lt;Realm Name>/&lt;Item ID>.JSON</i>
-        </span> (works)
+        </span>
         <div class='info' id='pubAvail'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -70,7 +70,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='pubAvail1'>
           GET <b>Availability Feed</b>
           <i>&lt;Realm Name>/&lt;Item ID>.RSS</i>
-        </span>
+        </span> (doesn't work)
         <div class='info' id='pubAvail1'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -105,7 +105,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subAvail'>
           GET <b>/availabilityOf/</b>
           <i>availabilityOf/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span> (works)
+        </span>
         <div class='info' id='subAvail'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -137,7 +137,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subLowest'>
           GET <b>/lowestPricePer/</b>
           <i>lowestPricePer/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span> (works)
+        </span>
         <div class='info' id='subLowest'>
           <div class='left'>Parameters</div>
           <div class='right'>
@@ -169,7 +169,7 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <span class='endpoint' toggle='subQuantity'>
           GET <b>/quantityOf/</b>
           <i>quantityOf/&lt;Realm Name>/&lt;Item ID>/&lt;Time></i>
-        </span> (works)
+        </span>
         <div class='info' id='subQuantity'>
           <div class='left'>Parameters</div>
           <div class='right'>
