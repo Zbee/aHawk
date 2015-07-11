@@ -41,6 +41,7 @@ $realm = strip_tags(str_replace('\'', '&#39;', $_POST['realm']));
 $availability = $controller->availabilityOf($itemID, $realm);
 
 if (is_string($availability)) {
+  $availability = new stdClass;
   $availability->available = false;
   $availability->lowestPricePer = 0;
   $availability->quantity = [0, ''];
