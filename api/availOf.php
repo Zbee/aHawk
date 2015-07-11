@@ -98,7 +98,7 @@ if (!$itemExist)
     )
   );
 
-$timeAllowed = $time == 'now' || $time == 'today'  || intval($time) == $time
+$timeAllowed = $time == 'now' || $time == 'today'  || intval($time) === $time
   ? true
   : false;
 if (!$timeAllowed)

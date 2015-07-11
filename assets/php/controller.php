@@ -141,7 +141,7 @@ class controller {
     $item = $item + '';
 
     if (strtolower($time) === 'today') $time = 'today';
-    if (intval($time) == $time) {
+    if (intval($time) === $time) {
       $time = round(intval($time)/checkEvery)*checkEvery;
       if ($time > $inADay*checkEvery)
         $time = $inADay*checkEvery;
