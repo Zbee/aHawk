@@ -98,7 +98,7 @@ if (!$itemExist)
     )
   );
 
-$timeAllowed = $time == 'now' || $time == 'today'  || intval($time) === $time
+$timeAllowed = $time == 'now' || $time == 'today'  || is_numeric($time)
   ? true
   : false;
 if (!$timeAllowed)
@@ -113,7 +113,7 @@ if (!$timeAllowed)
     )
   );
 
-$availability = $controller->availabilityOf($item, $realm, $time);
+$availability = $controller->availabilityOf($item, $realm, $time, 'quantity');
 if (!is_object($availability))
   die(
     json_encode(
@@ -128,7 +128,7 @@ header("Content-Type: application/json");
 
 $echo = [
   'quantity' => $time == 'today'
-    ? $availability->available
+    ? $availability->return
     : $availability->quantity
 ];
 

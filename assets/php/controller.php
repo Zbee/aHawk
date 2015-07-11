@@ -123,7 +123,9 @@ class controller {
     return $curID+1;
   }
 
-  public function availabilityOf ($item, $realm, $time = false) {
+  public function availabilityOf ($item, $realm, $time = false, $type = false) {
+    $typeN = $type;
+
     $inADay = (60/checkEvery-1)*24;
 
     $realm = $this->select('realms', ['name' => $realm]);
@@ -141,7 +143,7 @@ class controller {
     $item = $item + '';
 
     if (strtolower($time) === 'today') $time = 'today';
-    if (intval($time) === $time) {
+    if (is_numeric($time)) {
       $time = round(intval($time)/checkEvery)*checkEvery;
       if ($time > $inADay*checkEvery)
         $time = $inADay*checkEvery;
@@ -172,7 +174,7 @@ class controller {
       }
     } else {
       $return = new stdClass;
-      $return->available = [];
+      $return->return = [];
       $item = "$item";
 
       for ($x = 1; $x <= $inADay; $x++) {
@@ -182,12 +184,20 @@ class controller {
         $check = json_decode($check);
         
         if (isset($check->$realm->$item)) {
-          $return->available[$x] = $check->$realm->$item;
-          $return->available[$x]->time = isset($check->$realm->time)
-            ? $check->$realm->time
-            : 0;
+          if ($type !== false) {
+            $return->return[$x] = new stdClass;
+            $return->return[$x]->$type = $check->$realm->$item->$type;
+            $return->return[$x]->time = isset($check->$realm->time)
+              ? $check->$realm->time
+              : 0;
+          } else {
+            $return->return[$x] = $check->$realm->$item;
+            $return->return[$x]->time = isset($check->$realm->time)
+              ? $check->$realm->time
+              : 0;
+          }
         } else {
-          $return->available[$x] = 'did not get recorded here';
+          $return->return[$x] = 'did not get recorded here';
         }
       }
 

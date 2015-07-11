@@ -3,7 +3,7 @@
 $url = explode('availabilityOf/', $url)[1];
 $url = explode('/', $url);
 
-$args = explode('?', $urlO);
+$args = explode('?', end($url));
 if (count($args) === 1 || strtolower(explode('=', $args[1])[0]) !== 'token')
   die(
     json_encode(
@@ -43,7 +43,7 @@ if ($item == 0)
     )
   );
 
-$time = strtolower(preg_replace('/[^0-9a-zA-Z]+/i', '', urldecode($url[2])));
+$time = strtolower(preg_replace('/[^0-9a-zA-Z]+/i', '', explode('?', $url[2])[0]));
 if ($time == '')
   die(
     json_encode(
@@ -98,7 +98,7 @@ if (!$itemExist)
     )
   );
 
-$timeAllowed = $time == 'now' || $time == 'today'  || intval($time) === $time
+$timeAllowed = $time == 'now' || $time == 'today'  || is_numeric($time)
   ? true
   : false;
 if (!$timeAllowed)
@@ -113,7 +113,7 @@ if (!$timeAllowed)
     )
   );
 
-$availability = $controller->availabilityOf($item, $realm, $time);
+$availability = $controller->availabilityOf($item, $realm, $time, 'available');
 if (!is_object($availability))
   die(
     json_encode(
@@ -127,7 +127,9 @@ http_response_code(200);
 header("Content-Type: application/json");
 
 $echo = [
-  'available' => $availability->available,
+  'available' => $time == 'today'
+    ? $availability->return
+    : $availability->available
 ];
 
 if (!is_array($echo['available'])) $echo['time'] = $availability->time;
