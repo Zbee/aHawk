@@ -47,7 +47,7 @@ if (is_string($availability)) {
   $availability->quantity = [0, ''];
 }
 
-echo '<div class="left">Time of AH snapshot</div><div class="right">';
+echo '<div class="left">Time of realm snapshot</div><div class="right">';
 echo '<a href="https://xkcd.com/1179/" target="_blank">';
 echo $availability->time !== 0
   ? date("Y-m-d\TH:i", $availability->time)
