@@ -21,16 +21,16 @@
       This is a list of all of the items being tracked, their availability,
       quantity, and lowest price per item.
       <br>
-      Last check:
-      <?=$l=intval((time()-filemtime('../assets/data/checks/check1.dat'))/60)?>
-      min ago; Next check:
-      <?=checkEvery-$l?> min from now.
-      <br>
       <b>
         [
         <a href='/add/'>Add an item</a>
         ]
       </b>
+      <br>
+      Last check:
+      <?=$l=intval((time()-filemtime('../assets/data/checks/check1.dat'))/60)?>
+      min ago; Next check:
+      <?=checkEvery-$l?> min from now.
       <br>
       <div style='text-align:left'>
         <?php
@@ -77,7 +77,7 @@
               echo 'Realm snapshot: <abbr title="This was the most '
                 . 'recent snapshot available, new ones aren\'t always availabe '
                 . 'every ' . checkEvery . ' minutes">' . $realmAgo
-                . ' minutes ago</abbr> ('
+                . ' minutes old</abbr> ('
                 . ($realmDiff ? 'different from' : 'same as')
                 . ' last check)<br>';
               $firstOfRealm = false;
