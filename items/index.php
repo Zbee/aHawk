@@ -57,7 +57,19 @@
         foreach ($realms as $realm => $checks) {
           ksort($checks);
           $realm = $aRealms[$realm];
-          foreach ($checks as $itemID) {
+          $firstOfRealm = true;
+          foreach ($checks as $key => $itemID) {
+            if ($firstOfRealm) {
+              $availability = $controller->availabilityOf($itemID, $realm);
+              if (is_string($availability))
+                $availability->time = 0;
+              echo 'Time of realm snapshot: <abbr title="This was the most '
+                . 'recent snapshot available, new ones aren\'t always availabe '
+                . 'every ' . checkEvery . ' minutes">'
+                . intval((time()-$availability->time)/60)
+                . ' minutes ago</abbr><br>';
+              $firstOfRealm = false;
+            }
             $item = $items[$itemID];
             echo '<span class="endpoint" toggle="' . $itemID . '" item="'
               . $item . '" realm="' . $realm . '">' . $realm . ' / <b>' . $item
