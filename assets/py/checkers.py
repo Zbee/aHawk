@@ -20,11 +20,18 @@ def letters(input):
 def stackDenotation (item, byStack):
   total = 0
   denotation = ""
-  ordered = collections.OrderedDict(sorted(byStack[item].items()))
-  for stack, amount in ordered.iteritems():
-    total += int(stack)*int(amount)
-    denotation += str(amount) + "x" + str(stack) + "+"
-  return [total, denotation[:-1]]
+  if item in byStack:
+    ordered = collections.OrderedDict(
+      sorted(
+        byStack[item].items()
+      )
+    )
+    for stack, amount in ordered.iteritems():
+      total += int(stack)*int(amount)
+      denotation += str(amount) + "x" + str(stack) + "+"
+    return [total, denotation[:-1]]
+  else:
+    return [0, "0x0"]
 
 #Getting blizzKey from php config file
 config = open("../php/config.php", "r")
@@ -51,7 +58,8 @@ for check in checks:
 
 for realm, items in byRealm.iteritems():
   req = urllib2.Request(
-    "https://us.api.battle.net/wow/auction/data/" + realm.lower() + "?locale=en_US&apikey=" + blizzKey
+    "https://us.api.battle.net/wow/auction/data/" + realm.lower()
+    + "?locale=en_US&apikey=" + blizzKey
   )
   opener = urllib2.build_opener()
   try:
@@ -89,7 +97,13 @@ for realm, items in byRealm.iteritems():
         available = False
         if qDenote[0] > 0:
           available = True
-        output[realm][int(item)] = {"available": available, "lowestPricePer": lowestPricePer[item], "quantity": qDenote}
+        if item not in lowestPricePer:
+          lowestPricePer[item] = 0
+        output[realm][int(item)] = {
+          "available": available,
+          "lowestPricePer": lowestPricePer[item],
+          "quantity": qDenote
+        }
       output[realm]["time"] = lMod
     except urllib2.HTTPError as e:
       print e
