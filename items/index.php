@@ -63,11 +63,23 @@
               $availability = $controller->availabilityOf($itemID, $realm);
               if (is_string($availability))
                 $availability->time = 0;
-              echo 'Time of realm snapshot: <abbr title="This was the most '
+              $realmAgo = intval((time()-$availability->time)/60);
+              $realmDiff = true;
+              if ($realmAgo >= checkEvery) {
+                $oldAvailability = $controller->availabilityOf(
+                  $itemID, $realm, checkEvery
+                );
+                if (is_string($oldAvailability))
+                  $oldAvailability->time = 0;
+                if ($availability->time <= $oldAvailability->time)
+                  $realmDiff = false;
+              }
+              echo 'Realm snapshot: <abbr title="This was the most '
                 . 'recent snapshot available, new ones aren\'t always availabe '
-                . 'every ' . checkEvery . ' minutes">'
-                . intval((time()-$availability->time)/60)
-                . ' minutes ago</abbr><br>';
+                . 'every ' . checkEvery . ' minutes">' . $realmAgo
+                . ' minutes ago</abbr> ('
+                . ($realmDiff ? 'different from' : 'same as')
+                . ' last check)<br>';
               $firstOfRealm = false;
             }
             $item = $items[$itemID];
