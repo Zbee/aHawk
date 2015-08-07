@@ -47,6 +47,7 @@ and a way to compile [Stylus](https://learnboost.github.io/stylus).
 5. Add `aHawk/assets/php/cron.php` to your cron jobs, running it between every 
 1min and `checkEvery`min (cron.php will only perform checks as often as 
 `checkEvery` minutes anyways).
+6. Run the list generators in `aHawk/assets/py` (realms and items).
 
 ##Attribution
 aHawk was made in 2015 by Ethan Henderson (Zbee) &lt;ethan@zbee.me>

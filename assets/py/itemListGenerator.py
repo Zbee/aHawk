@@ -14,7 +14,7 @@ doTo = 150000
 #Setup arguments
 parser = argparse.ArgumentParser(description="Downloads data on every item in WoW")
 parser.add_argument("--debug", help="If debug info should be shown (false)", nargs=1)
-parser.add_argument("--not-found-limit", help="The number of 404's you can get in a row before quitting (100)", nargs=1)
+parser.add_argument("--not-found-limit", help="The number of 404's you can get in a row before quitting (250)", nargs=1)
 parser.add_argument("--do-from", help="The WoW item ID to start at (1)", nargs=1)
 parser.add_argument("--do-to", help="The WoW item ID to stop at (150000)", nargs=1)
 
@@ -60,7 +60,7 @@ def updateProgress(progress, status, notFounds, newNotFounds, notFoundInRow):
 #Getting blizzKey from php config file
 blizzKey = open("../php/config.php", "r")
 blizzKey = blizzKey.readlines()
-blizzKey = blizzKey[8].split("'")[3]
+blizzKey = blizzKey[11].split("'")[3]
 
 #Echoing settings for debug
 if debug:
@@ -73,99 +73,85 @@ if debug:
 
 #Setting up the timestamped files (so stuff isn't overwritten whilst running)
 os.mkdir("../data/items" + startTime + "/")
-with open("../data/itemList" + startTime + ".dat", "a") as myfile:
-  myfile.write("id,name")
-  for x in xrange(doFrom,doTo+1):
-    #Make sure the 404 file exists
-    if not os.path.isfile("404s.dat"):
-      open("404s.dat", "a").close()
-    status = str(x)
-    #Check if the current item ID is marked as a 404
-    notFounds = open("404s.dat", "r")
-    notFounds = notFounds.read().split(",")
-    #Skip this item ID if it has 404'd before
-    if str(x) in notFounds:
-      totalNFs += 1
-      pass
-    #If the item ID hasn't 404'd before
+for x in xrange(doFrom,doTo+1):
+  #Make sure the 404 file exists
+  if not os.path.isfile("404s.dat"):
+    open("404s.dat", "a").close()
+  status = str(x)
+  #Check if the current item ID is marked as a 404
+  notFounds = open("404s.dat", "r")
+  notFounds = notFounds.read().split(",")
+  #Skip this item ID if it has 404'd before
+  if str(x) in notFounds:
+    totalNFs += 1
+    pass
+  #If the item ID hasn't 404'd before
+  else:
+    #If the number of 404's in a row exceeds the limit
+    if len(notFoundInRow[:-2].split(",")) >= notFoundLimit:
+      #Stop the loop, because that means we're at the end of WoW items
+      print "\nReached the end of valid items in WoW. (stopped at " + status + ")"
+      break
+    #If we haven't exceeded that limit
     else:
-      #If the number of 404's in a row exceeds the limit
-      if len(notFoundInRow[:-2].split(",")) >= notFoundLimit:
-        #Stop the loop, because that means we're at the end of WoW items
-        print "\nReached the end of valid items in WoW. (stopped at " + status + ")"
-        break
-      #If we haven't exceeded that limit
-      else:
-        #Make the item ID request
-        req = urllib2.Request(
-          "https://us.api.battle.net/wow/item/" + str(x) + "?locale=en_US&apikey="
-          + blizzKey
-        )
-        opener = urllib2.build_opener()
-        #try opening the data received from the website and reading the json inside
-        try:
-          json = opener.open(req)
-          data = simplejson.load(json)
-          #Write the 404's in a row to a hard list, and reset them
-          with open("404s.dat", "a") as nfFile:
-            if notFoundInRow[:-2].split(",")[0] not in notFounds:
-              nfFile.write(notFoundInRow)
-            notFoundInRow = ""
-          #Note the name of the item
-          status += ": " + data["name"]
-          #Record the name and item ID in 2 methods(1: big list, 2: lots of files)
-          myfile.write("\n" + str(x) + "," + data["name"].replace(",", "|"))
-          with open("../data/items" + startTime + "/" + str(x) + ".dat", "w") as indFile:
-            indFile.write(data["name"])
-        #If the data from the website cannot be read (404, primarily)
-        except urllib2.HTTPError as e:
-          #If the problem was a 404 (meaning the item doesn't exist)
-          if e.code == 404:
-            #Keep track of how many 404's have been found and how many are new
-            totalNFs += 1
-            totalNewNFs += 1
-            #If this item hasn't 404'd before
-            if str(x) not in notFounds:
-              #Record that this item 404'd in a soft list
-              notFoundInRow += status + ","
-          pass
-    #Always update the progress bar
-    updateProgress(float(x)/doTo, status, totalNFs, totalNewNFs, len(notFoundInRow[:-2].split(",")))
+      #Make the item ID request
+      req = urllib2.Request(
+        "https://us.api.battle.net/wow/item/" + str(x) + "?locale=en_US&apikey="
+        + blizzKey
+      )
+      opener = urllib2.build_opener()
+      #try opening the data received from the website and reading the json inside
+      try:
+        json = opener.open(req)
+        data = simplejson.load(json)
+        #Write the 404's in a row to a hard list, and reset them
+        with open("404s.dat", "a") as nfFile:
+          if notFoundInRow[:-2].split(",")[0] not in notFounds:
+            nfFile.write(notFoundInRow)
+          notFoundInRow = ""
+        #Note the name of the item
+        status += ": " + data["name"]
+        #Record the name and item ID
+        with open("../data/items" + startTime + "/" + str(x) + ".dat", "w") as indFile:
+          indFile.write(data["name"])
+      #If the data from the website cannot be read (404, primarily)
+      except urllib2.HTTPError as e:
+        #If the problem was a 404 (meaning the item doesn't exist)
+        if e.code == 404:
+          #Keep track of how many 404's have been found and how many are new
+          totalNFs += 1
+          totalNewNFs += 1
+          #If this item hasn't 404'd before
+          if str(x) not in notFounds:
+            #Record that this item 404'd in a soft list
+            notFoundInRow += status + ","
+        pass
+  #Always update the progress bar
+  updateProgress(float(x)/doTo, status, totalNFs, totalNewNFs, len(notFoundInRow[:-2].split(",")))
 
 #If an old items directory and list exist
-if os.path.isfile("../data/itemList.dat") and os.path.isdir("../data/items"):
-  oldSize = os.stat("../data/itemList.dat").st_size
-  newSize = os.stat("../data/itemList" + startTime + ".dat").st_size
+if os.path.isdir("../data/items"):
+  oldSize = sum(os.path.getsize(f) for f in os.listdir("../data/items") if os.path.isfile(f))
+  newSizeSize = sum(os.path.getsize(f) for f in os.listdir("../data/items" + startTime) if os.path.isfile(f))
   #If the new list is bigger than the old one
   if newSize > oldSize - 1024:
-    #Move the new list to the old one (removing the old one)
-    newList = open("../data/itemList" + startTime + ".dat", "r")
-    newList = newList.read()
-    with open("../data/itemList.dat", "w") as listFile:
-      listfile.write(newList)
-    #Remove the new list duplicate
-    os.remove("../data/itemList" + startTime + ".dat")
     #Remove the old directory
     os.rmtree("../data/items")
     #Rename the new directory to replace the old one
     os.rename("../data/items" + startTime, "../data/items")
     print "\nNew item list has been created and replaced the old one."
-    print "You can find the new data in ../data/itemList.dat and ../data/items/"
+    print "You can find the new data in and ../data/items/"
   #If the new list is smaller
   else:
     print "\nNew item list was smaller than old list; both files retained."
-    print "You can find the new data in ../data/itemList" + startTime + ".dat and ../data/items" + startTime +  "/"
+    print "You can find the new data in and ../data/items" + startTime +  "/"
 #If both the old items directory and list did not exist
 else:
-  #Delete the old list if it exists
-  if os.path.isfile("../data/itemList.dat"):
-    os.remove("../data/itemList.dat")
   #Delete the old directory if it exists
   if os.path.isdir("../data/items"):
     os.rmtree("../data/items")
-  #Rename the new list and directory to replace the old items
-  os.rename("../data/itemList" + startTime + ".dat", "../data/itemList.dat")
+  #Rename the new directory to replace the old ONE
   os.rename("../data/items" + startTime, "../data/items")
   print "\nNew item list has been created."
-  print "You can find the new data in ../data/itemList.dat and ../data/items/"
+  print "You can find the new data in ../data/items/"
 print "\nDone."
