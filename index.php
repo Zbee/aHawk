@@ -36,9 +36,6 @@
       <?=$l=intval((time()-filemtime('assets/data/checks/check1.dat'))/60)?>
       min ago; Next check: <?=checkEvery-$l?> min from now.
       <br><br>
-      <i>This is not yet done, see current progress
-      <a href='https://github.com/Zbee/aHawk/#current-progress'>here</a>.</i>
-      <br><br>
       <span class='muted'>
         Made with &lt;3 by <a href='https://keybase.io/zbee'>Zbee</a>,
         open source <a href='https://github.com/Zbee/aHawk'>GitHub</a>,

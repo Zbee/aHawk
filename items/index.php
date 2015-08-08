@@ -18,9 +18,9 @@
 
     <div id='main'>
       <h1><a href='/'>aHawk</a> :: Tracked Items</h1>
-      This is a list of all of the items being tracked, their availability,
-      quantity, and lowest price per item.
-      <br>
+      This is a list of all of the realms with tracked items and information
+      about those items.
+      <br><br>
       <b>
         [
         <a href='/add/'>Add an item</a>
@@ -31,7 +31,7 @@
       <?=$l=intval((time()-filemtime('../assets/data/checks/check1.dat'))/60)?>
       min ago; Next check:
       <?=checkEvery-$l?> min from now.
-      <br>
+      <br><br>
       <div style='text-align:left'>
         <?php
         $checks = $controller->select('checks', '*');
@@ -56,6 +56,7 @@
         ksort($realms);
         foreach ($realms as $realm => $checks) {
           ksort($checks);
+          $realmS = $realm;
           $realm = $aRealms[$realm];
           $firstOfRealm = true;
           foreach ($checks as $key => $itemID) {
@@ -74,21 +75,22 @@
                 if ($availability->time <= $oldAvailability->time)
                   $realmDiff = false;
               }
-              echo 'Realm snapshot: <abbr title="This was the most '
+              echo '<a class="endpoint" toggle="' . $realmS . '"> ' . $realm
+                . ' </a> Realm snapshot: <abbr title="This was the most '
                 . 'recent snapshot available, new ones aren\'t always availabe '
                 . 'every ' . checkEvery . ' minutes">' . $realmAgo
                 . ' minutes old</abbr> ('
                 . ($realmDiff ? 'different from' : 'same as')
-                . ' last check)<br>';
+                . ' last check)<div style="display:none;margin-left:15px" id="' . $realmS . '">';
               $firstOfRealm = false;
             }
             $item = $items[$itemID];
             echo '<span class="endpoint" toggle="' . $itemID . '" item="'
-              . $item . '" realm="' . $realm . '">' . $realm . ' / <b>' . $item
-              . '</b></span><br>';
+              . $item . '" realm="' . $realm . '"> ' . $item . ' </span><br>';
 
             $availability = $controller->availabilityOf($itemID, $realm);
             echo '<div class="info" id="' . $itemID . '">Loading...</div>';
+            if (end($checks) === $itemID) echo '</div><br>';
           }
         }
         ?>
