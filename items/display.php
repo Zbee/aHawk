@@ -64,8 +64,8 @@ echo $availability->quantity[0];
 echo '</div><br>';
 
 $empty = 0;
-$seventyTwo = '';
-for ($i = 1; $i <= 72; $i++) {
+$chartData = '';
+for ($i = 1; $i <= (60/checkEvery-1)*24; $i++) {
   $check = file_get_contents('../assets/data/checks/check' . $i . '.dat');
   $check = json_decode($check);
   if (isset($check->$realm->$itemID)) {
@@ -74,11 +74,11 @@ for ($i = 1; $i <= 72; $i++) {
     $quantity = 0;
     $empty += 1;
   }
-  $seventyTwo .= ', ' . $quantity;
+  $chartData .= ', ' . $quantity;
 }
-$seventyTwo = substr($seventyTwo, 2);
+$chartData = substr($chartData, 2);
 
-echo '<div class="left">Quantity Histogram</div><div class="right">';
+echo '<div class="left hidden-xs">Quantity Histogram</div><div class="right hidden-xs">';
 echo '<div id="ch' . $itemID . '" style="height: 150px; margin: 0"></div>
 <script>
 $("#ch' . $itemID . '").width(((window.innerWidth*.4-80)*.95-8)*.74)
@@ -134,11 +134,11 @@ $("#ch' . $itemID . '").highcharts({
   },
   series: [{
     name: "' . $item . '",
-    data: [' . $seventyTwo . ']
+    data: [' . $chartData . ']
   }]
 })
 </script>';
-echo '</div><br>';
+echo '</div><br class="hidden-xs">';
 
 echo '<div class="left">Coverage</div><div class="right">';
 echo (100-round($empty/72/100)*100) . '%'
@@ -160,9 +160,7 @@ echo '<a href="https://theunderminejournal.com/#us/'
   . $realm . '/item/' . $itemID . '" target="_blank">The Undermine '
   . 'Journal</a>, ';
 echo '<a href="http://www.wowhead.com/item='. $itemID . '"'
-  . ' target="_blank">Wowhead</a>, ';
-echo '<a href="http://us.battle.net/wow/en/item/'. $itemID . '"'
-  . ' target="_blank">Battle.net</a>; ';
+  . ' target="_blank">Wowhead</a>; ';
 echo 'and, buy it on <a href="https://us.battle.net/wow/en/vault/'
   . 'character/auction/browse?itemId=' . $itemID . '"'
   . ' target="_blank">Battle.net</a>.';
