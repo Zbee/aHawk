@@ -61,6 +61,7 @@ echo '<div class="left">Quantity Available</div><div class="right">';
 echo $availability->quantity[0];
 echo '</div><br>';
 
+$empty = 0;
 $seventyTwo = '';
 for ($i = 1; $i <= 72; $i++) {
   $check = file_get_contents('../assets/data/checks/check' . $i . '.dat');
@@ -69,6 +70,7 @@ for ($i = 1; $i <= 72; $i++) {
     $quantity = $check->$realm->$itemID->quantity[0];
   } else {
     $quantity = 0;
+    $empty += 1;
   }
   $seventyTwo .= ', ' . $quantity;
 }
@@ -135,6 +137,10 @@ $("#ch' . $itemID . '").highcharts({
 })
 </script>';
 echo '</div><br>';
+
+echo '<div class="left">Coverage</div><div class="right">';
+echo '<abbr title="Percentage of checks today that included this item">'
+  . (100-round($empty/72/100)*100) . '%</abbr></div>';
 
 echo '<br>Find more info on ';
 echo '<a href="https://theunderminejournal.com/#us/'

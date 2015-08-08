@@ -68,10 +68,10 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
 - [X] Tracking items
   - [X] Add items
   - [X] Check on items
+  - [X] Indicate coverage of an item (100%=tracking all day or longer, less%=
+  started tracking sometime in last 24 hours)
   - [ ] Use JS to keep the time from/to updates accurate
   - [ ] Determine player with largest share of an item
-  - [ ] Indicate coverage of an item (100%=tracking all day or longer, less%=
-  started tracking sometime in last 24 hours)
 - [ ] Notifications
   - [ ] Subscribe to items
   - [ ] Get notifications from subscriptions
