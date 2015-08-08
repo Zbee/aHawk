@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import urllib2, simplejson, sys, time, argparse, os, collections, re
+import urllib2, simplejson, sys, time, argparse, os, collections, re, operator
 
 #Variables for later
 startTime = str(time.strftime("%Y-%m-%dT%H%M"))
@@ -76,10 +76,22 @@ for realm, items in byRealm.iteritems():
       auctions = data["auctions"]["auctions"]
       byStack = {}
       lowestPricePer = {}
+      owner = {}
+      ownerRealms = {}
       for auction in auctions:
+        if int(auction["item"]) not in owner:
+          owner[int(auction["item"])] = {}
+        if auction["owner"] in owner[int(auction["item"])]:
+          owner[int(auction["item"])][auction["owner"]] += int(auction["quantity"])
+        else:
+          owner[int(auction["item"])][auction["owner"]] = int(auction["quantity"])
+        ownerRealms[auction["owner"]] = str(auction["ownerRealm"]).lower()
+        ownerRealms[auction["owner"]] = ownerRealms[auction["owner"]].replace("'", "")
+        ownerRealms[auction["owner"]] = ownerRealms[auction["owner"]].replace("-", "")
+        ownerRealms[auction["owner"]] = ownerRealms[auction["owner"]].replace(" ", "-")
         if int(auction["item"]) in items:
           if int(auction["item"]) not in lowestPricePer:
-            lowestPricePer[int(auction["item"])] = 10000000000000000000000
+            lowestPricePer[int(auction["item"])] = 1000000000000000000000000000
           if auction["buyout"] == 0:
             lpp = int(auction["bid"])
           else:
@@ -99,10 +111,17 @@ for realm, items in byRealm.iteritems():
           available = True
         if item not in lowestPricePer:
           lowestPricePer[item] = 0
+        if item in owner:
+          ownerO = sorted(owner[item].items(), key=operator.itemgetter(1))[-1]
+        else:
+          ownerO = ("", 0)
         output[realm][int(item)] = {
           "available": available,
           "lowestPricePer": lowestPricePer[item],
-          "quantity": qDenote
+          "quantity": qDenote,
+          "owner": ownerO[0],
+          "ownerRealm": ownerRealms[ownerO[0]],
+          "owns": ownerO[1]
         }
       output[realm]["time"] = lMod
     except urllib2.HTTPError as e:

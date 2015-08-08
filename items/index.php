@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
   <header>
-    <title>aHawk</title>
+    <title>aHawk :: Tracked items</title>
 
     <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
 
@@ -61,16 +61,20 @@
           foreach ($checks as $key => $itemID) {
             if ($firstOfRealm) {
               $availability = $controller->availabilityOf($itemID, $realm);
-              if (is_string($availability))
+              if (is_string($availability)) {
+                $availability = new stdClass;
                 $availability->time = 0;
+              }
               $realmAgo = intval((time()-$availability->time)/60);
               $realmDiff = true;
               if ($realmAgo >= checkEvery) {
                 $oldAvailability = $controller->availabilityOf(
                   $itemID, $realm, checkEvery
                 );
-                if (is_string($oldAvailability))
+                if (is_string($oldAvailability)) {
+                  $oldAvailability = new stdClass;
                   $oldAvailability->time = 0;
+                }
                 if ($availability->time <= $oldAvailability->time)
                   $realmDiff = false;
               }

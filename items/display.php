@@ -45,6 +45,8 @@ if (is_string($availability)) {
   $availability->available = false;
   $availability->lowestPricePer = 0;
   $availability->quantity = [0, ''];
+  $availability->owner = "Unknown";
+  $availability->owns = 0;
 }
 
 echo '<div class="left">Available</div><div class="right">';
@@ -139,8 +141,19 @@ $("#ch' . $itemID . '").highcharts({
 echo '</div><br>';
 
 echo '<div class="left">Coverage</div><div class="right">';
-echo '<abbr title="Percentage of checks today that included this item">'
-  . (100-round($empty/72/100)*100) . '%</abbr></div>';
+echo (100-round($empty/72/100)*100) . '%'
+  . '<abbr title="Percentage of checks today that included this item">?'
+  . '</abbr></div>';
+
+$ownerP = $availability->quantity[0] > 0
+  ? number_format($availability->owns/$availability->quantity[0]*100, 0)
+  : 0;
+echo '<div class="left">Controller</div><div class="right">';
+echo '<a href="https://theunderminejournal.com/#us/' . $availability->ownerRealm
+  . '/seller/' . $availability->owner . '" target="_blank">'
+  . $availability->owner . '</a> with ' . $ownerP . '% '
+  . '<abbr title="Player who owns the most of this item that are for sale">?'
+  . '</abbr></div>';
 
 echo '<br>Find more info on ';
 echo '<a href="https://theunderminejournal.com/#us/'

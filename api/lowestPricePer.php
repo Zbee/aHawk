@@ -6,7 +6,7 @@ $url = explode('/', $url);
 $args = explode('?', end($url));
 if (count($args) === 1 || strtolower(explode('=', $args[1])[0]) !== 'token')
   throw new Exception(
-    'this endpoint requires a token (' . $urlO . ')']
+    'this endpoint requires a token (' . $urlO . ')'
   );
 
 $token = preg_replace('/[^a-z0-9]+/i', '', explode('=', $args[1])[1]);
