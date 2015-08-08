@@ -89,7 +89,8 @@
             }
             $item = $items[$itemID];
             echo '<span class="endpoint" toggle="' . $itemID . '" item="'
-              . $item . '" realm="' . $realm . '"> ' . $item . ' </span><br>';
+              . $item . '" realm="' . $realm . '" realmS="' . $realmS . '"> '
+              . $item . ' </span><br>';
 
             $availability = $controller->availabilityOf($itemID, $realm);
             echo '<div class="info" id="' . $itemID . '">Loading...</div>';
@@ -128,6 +129,23 @@
         })
       }
     })
+
+    var url = window.location.href
+    if (url.indexOf("realm=") > -1 && url.indexOf("item=") > -1) {
+      var realm = url.split("realm=")[1]
+      if (realm.indexOf("&") > -1) realm = realm.split("&")[0]
+      if (realm.indexOf("/") > -1) realm = realm.split("/")[0]
+      realm = realm.replace(/[^\w\'\- ]+/i, "")
+      $("#" + realm).show()
+      var item = url.split("item=")[1]
+      if (item.indexOf("&") > -1) item = item.split("&")[0]
+      if (item.indexOf("/") > -1) item = item.split("/")[0]
+      item = parseInt(item)
+      $("span[toggle='" + item + "'][realmS='" + realm + "']").click()
+      $('html, body').animate({
+        scrollTop: $("span[toggle='" + item + "'][realmS='" + realm + "']").offset().top
+      }, 1500);
+    }
 
     </script>
 

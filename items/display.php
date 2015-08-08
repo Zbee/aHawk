@@ -51,9 +51,12 @@ if (is_string($availability)) {
 
 echo '<div class="left">Available</div><div class="right">';
 echo $availability->available === true ? "Yes" : "No";
-echo '<a href="/sub?to=' . $itemID . '&realm=' . $realm . '" class="right">'
-  . 'Suscribe</a>';
-echo '</div><br>';
+echo '<span class="right">';
+echo '<a href="/items?item=' . $itemID . '&realm=' . $realm . '">'
+  . 'Link</a>, ';
+echo '<a href="/sub?to=' . $itemID . '&realm=' . $realm . '">'
+  . 'Subscribe</a>';
+echo '</span></div><br>';
 
 echo '<div class="left">Lowest Price Per Item</div><div class="right">';
 echo wowCur($availability->lowestPricePer, false, true, true);
@@ -158,7 +161,7 @@ echo '<a href="https://theunderminejournal.com/#us/' . $availability->ownerRealm
 echo '<br>Find more info on ';
 echo '<a href="https://theunderminejournal.com/#us/'
   . $realm . '/item/' . $itemID . '" target="_blank">The Undermine '
-  . 'Journal</a>, ';
+  . 'Journal</a> and ';
 echo '<a href="http://www.wowhead.com/item='. $itemID . '"'
   . ' target="_blank">Wowhead</a>; ';
 echo 'and, buy it on <a href="https://us.battle.net/wow/en/vault/'
