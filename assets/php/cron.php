@@ -6,11 +6,10 @@ Setting up
 
 require_once(__DIR__ . '/config.php');
 
-$dataDir = explode('/', __DIR__);
-unset($dataDir[array_search(end($dataDir), $dataDir)]);
-$dataDir = implode('/', $dataDir);
-$pyDir = $dataDir . '/py';
-$dataDir .= '/data';
+$force = false;
+if (isset($_GET["force"])) $force = true;
+
+$dataDir = "../data";
 
 $return = [];
 
@@ -28,11 +27,10 @@ if (!is_dir($checks)) {
   $jC = true;
 }
 
-if ($jC || filemtime($checks . '/check1.dat') < time()-checkEvery*60) {
-  $command = 'python ' . $pyDir . '/checkers.py > /dev/null 2>/dev/null &';
-  $result = exec($command);
-  echo $result;
-  $return['checkList'] = 'updating (~10sec per realm)';
+if ($force || $jC || filemtime($checks . '/check1.dat') < time()-checkEvery*60) {
+  $command = escapeshellcmd('python ../py/checkers.py');
+  $result = shell_exec($command);
+  $return['checkList'] = 'updating';
 } else {
   $return['checkList'] = 'up to date';
 }
