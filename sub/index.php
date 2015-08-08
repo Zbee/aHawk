@@ -63,8 +63,8 @@ if (isset($_POST['subEmail'])) {
       Once you submit this form, you will be subscribed to a tracked item.
       <br>
       There are also 2 other methods to subscriptions to tracked items on the
-      <a href='/api'>API page</a> (<a href='/api/Eitrigg/21877.JSON'>JSON</a>,
-      and <a href='/api/Eitrigg/21877.RSS'>RSS</a>).
+      <a href='/api'>API page</a> (<a href='/api/<?=$realm?>/<?=$item?>.JSON'>JSON</a>,
+      and <a href='/api/<?=$realm?>/<?=$item?>.RSS'>RSS</a>).
       <br><br>
       <form action='?item=<?=$item?>&$realm=<?=$realm?>' method='post'>
         <abbr title='Must subscribe in some way'>Notification Subscription</abbr>
