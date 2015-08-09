@@ -43,6 +43,8 @@
         <a href='https://blizzard.com'>Blizzard</a>
       </span>
     </div>
+    
+    <img src='/assets/img/side.png' id='hawk'>
 
   </body>
 </html>

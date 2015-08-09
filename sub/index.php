@@ -133,6 +133,8 @@ if (isset($_POST['subEmail'])) {
         <a href='https://blizzard.com'>Blizzard</a>
       </span>
     </div>
+    
+    <img src='/assets/img/side.png' id='hawk'>
 
     <script src='checkForm.js'></script>
 

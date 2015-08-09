@@ -99,7 +99,7 @@
         }
         ?>
       </div>
-      <br><br>
+      <br>
       <span class='muted'>
         Made with &lt;3 by <a href='https://keybase.io/zbee'>Zbee</a>,
         open source <a href='https://github.com/Zbee/aHawk'>GitHub</a>,
@@ -107,6 +107,8 @@
         <a href='https://blizzard.com'>Blizzard</a>
       </span>
     </div>
+    
+    <img src='/assets/img/side.png' id='hawk'>
 
     <script>
 

@@ -1,4 +1,4 @@
-/* $ stylus -c < style.styl > style.css */
+/* $ stylus -c */
 
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 
@@ -109,16 +109,13 @@ input[type='email'], input[type='email']:focus
   padding 5px 15px
   margin 1px
   box-shadow 0px 0px 3px 1px rgba(50, 50, 50, 0.2)
-
+#hawk
+  display none
 @media screen and (min-width: 980px)
   body
     padding 50px
   #main
     width 40%
-    /**/
-    background url('/assets/img/side.png') no-repeat bottom right
-    padding-right 140px
-    /**/
   input[type='text'], input[type='text']:focus,
   input[type='number'], input[type='number']:focus,
   input[type='email'], input[type='email']:focus
@@ -131,14 +128,16 @@ input[type='email'], input[type='email']:focus
     .right
       width 74%
       display inline-block
-
+  #hawk
+    position absolute
+    bottom 0px
+    right 0px
 @media screen and (max-width: 500px)
   #main
     box-shadow none
     padding none
   .hidden-xs
     display none !important
-
 .muted, .disabled
   opacity: 0.6
   font-size 90%

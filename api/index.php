@@ -206,6 +206,8 @@ $realm = '<u>Realm Name:</u> (str) The name of the realm, urlencoded, case
         <a href='https://blizzard.com'>Blizzard</a>
       </span>
     </div>
+    
+    <img src='/assets/img/side.png' id='hawk'>
 
     <script>
 
