@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import urllib2, simplejson, sys, time, codecs, argparse, os
 
 #Variables for later

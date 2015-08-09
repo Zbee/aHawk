@@ -76,7 +76,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [X] Determine player with largest share of an item
 - [ ] Notifications
   - [X] Subscribe to items
-  - [ ] Notifications from subscriptions
+  - [X] Notifications from subscriptions
   - [ ] Cancel old subscriptions
   - [ ] Cancel checks with no subscriptions
 - [X] See tracked items

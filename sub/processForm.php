@@ -113,13 +113,18 @@ if (!$subs[0] && !$subs[1] && !$subs[2]) {
 }
     
 if ($subs[0]) {
+  $token = hash(
+    "sha256",
+    "email" . $_POST['subEmail'] . time() . $_SERVER['REMOTE_ADDR']
+  );
+  $token = substr($token, 49);
   $emailsub = $controller->insert(
     'email_subscriptions',
-    ['email' => $_POST['subEmail']]
+    ['email' => $_POST['subEmail'], 'hash' => $token]
   );
   $controller->insert(
     'subscriptions',
-    ['check' => $check, 'method' => $method, 'link' => $emailsub]
+    ['check' => $check, 'method' => 1, 'link' => $emailsub]
   ); 
 }
 
@@ -130,14 +135,14 @@ if ($subs[1]) {
   );
   $controller->insert(
     'subscriptions',
-    ['check' => $check, 'method' => $method, 'link' => $iftttsub]
+    ['check' => $check, 'method' => 2, 'link' => $iftttsub]
   );
 }
 
 if ($subs[2]) {
   $token = hash(
     "sha256",
-    $_POST['subAPIEmail'] . time() . $_SERVER['REMOTE_ADDR']
+    "api" . $_POST['subAPIEmail'] . time() . $_SERVER['REMOTE_ADDR']
   );
   $token = substr($token, 44);
   $apisub = $controller->insert(
@@ -146,7 +151,7 @@ if ($subs[2]) {
   );
   $controller->insert(
     'subscriptions',
-    ['check' => $check, 'method' => $method, 'link' => $apisub]
+    ['check' => $check, 'method' => 3, 'link' => $apisub]
   );
 }
 

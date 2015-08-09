@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 import urllib2, simplejson, sys, time, argparse, os, collections, re, operator
+import subprocess, sys
 
 #Variables for later
 startTime = str(time.strftime("%Y-%m-%dT%H%M"))
@@ -143,6 +143,9 @@ for x in xrange((60/checkEvery-1)*24, 0, -1):
     with open("../data/checks/check" + str(x) + ".dat", "w") as file:
       curFile = open("../data/checks/check" + str(int(x)-1) + ".dat", "r")
       file.write(curFile.read())
+
+#Start the notification script
+subprocess.Popen([sys.executable, "notify.py"])
 
 if debug:
   print "Finished at:              " + str(time.strftime("%Y-%m-%dT%H%M"))

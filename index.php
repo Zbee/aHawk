@@ -1,4 +1,4 @@
-<?php require(__DIR__ . '/assets/php/config.php'); ?>
+<?php require('./assets/php/config.php'); ?>
 
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,12 @@
   <body>
 
     <div id='main'>
+      <?=
+      array_key_exists('unsubscribed', $_GET)
+        ? '<div class="info" style="display:block">You have unsubscribed '
+          . 'from emails.</div>'
+        : ''
+      ?>
       <h1>aHawk</h1>
       A World of Warcraft Auction House availability checker with an API and
       notifications that works off of a dynamic list of items and realms.

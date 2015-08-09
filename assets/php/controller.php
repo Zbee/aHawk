@@ -23,12 +23,13 @@ class controller {
     if (count($data) < 2) return 'there is no data in that table';
 
     $cols = explode(',', $data[0]);
+    $cols = array_map('trim', $cols);
     array_shift($data);
 
     if (is_array($search))
       foreach ($search as $col => $match)
         if (!in_array($col, $cols, true))
-          return '$search key not a column in table';
+          return '$search key not a column in table' . ($debug ? ' ' . $col : '');
 
     $return = [];
 
