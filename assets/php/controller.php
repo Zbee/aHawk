@@ -40,7 +40,7 @@ class controller {
         $yes = false;
         foreach ($search as $col => $match) {
           if ($debug) echo '<br>' . $col . '=>' . $match ;
-          if (!in_array($match, $cells, true)) {
+          if (!in_array("$match", $cells, true)) {
             $yes = false;
             if ($debug) echo $yes == true ? ' true' : ' false';
             continue;
