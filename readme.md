@@ -19,11 +19,14 @@ notification options), so I needed something that could update me more often
 and that would be easier to add additional item monitors too.
 
 ##Notifications
+Notifications are issued when an item is available in a check and it wasn't in 
+the last two checks.
+
 - **Email**
-  - Emails are sent when the item is available in a check
+  - Emails are sent when the item is available
 - **IFTTT**
   - Triggers [IFTTT Maker](http://ifttt.com/maker) recipes when the item is 
-  available in a check
+  available
 - **API**
   - Gives user token and link to add permitted IP addresses, using the token 
   they can use the API; triggers nothing
@@ -73,7 +76,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [X] Determine player with largest share of an item
 - [ ] Notifications
   - [X] Subscribe to items
-  - [ ] Get notifications from subscriptions
+  - [ ] Notifications from subscriptions
   - [ ] Cancel old subscriptions
   - [ ] Cancel checks with no subscriptions
 - [X] See tracked items
@@ -91,14 +94,14 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [ ] API endpoint for item across all realms
   - [ ] API endpoint for owner of item
 - [ ] Security
-  - [ ] Require HTTPS
+  - [X] Require HTTPS
   - [ ] Access to page support scripts
   - [ ] Access to Python
   - [ ] Access to PHP
   - [ ] Access to Data
   - [ ] Access to Logs
   - [ ] Bots on non-api pages
-  - [ ] reCAPTCHA on modification forms
+  - [ ] reCAPTCHA on forms
   - [ ] Backups (hourly, kept for 2 days?)
   - [ ] Determine bare-minimum permissions for entire thing to work, minimize
 - [ ] Optimization
@@ -114,6 +117,8 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [ ] Notifications given
   - [ ] API usage
   - [ ] Subscription cancelling
+    - [ ] Manual
+    - [ ] Auto
   - [ ] Page loads
   - [ ] Data transfer
 - [ ] Other
