@@ -66,7 +66,7 @@ if (isset($_POST['subEmail'])) {
       <a href='/api'>API page</a> (<a href='/api/<?=$realm?>/<?=$item?>.JSON'>JSON</a>,
       and <a href='/api/<?=$realm?>/<?=$item?>.RSS'>RSS</a>).
       <br><br>
-      <form action='?item=<?=$item?>&$realm=<?=$realm?>' method='post'>
+      <form action='?to=<?=$item?>&realm=<?=$realm?>' method='post'>
         <abbr title='Must subscribe in some way'>Notification Subscription</abbr>
         <b id='subGood'></b>
         <br>
@@ -89,7 +89,7 @@ if (isset($_POST['subEmail'])) {
         <label id='subIFTTT'>
           <input type='checkbox' name='subIFTTTYes'
             <?=isset($repForm['subIFTTTYes']) ? 'checked' : ''?>>
-          <abbr title='The values passed to IFTTT will be the name of the item, the quantity available, and then a link to the item on the auction house on battle.net, in that order'>IFTTT</abbr>
+          <abbr title='The values passed to IFTTT will be the name of the item, the quantity available, and then a link to the item on the auction house on battle.net, in that order. This will trigger the recipe to ensure it works.'>IFTTT</abbr>
           <br>
           <abbr title='You chose this when creating the IFTTT recipe you want us to trigger'>Maker Event Name</abbr>
           <input type='text' name='subIFTTTName'

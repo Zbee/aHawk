@@ -72,9 +72,10 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   started tracking sometime in last 24 hours)
   - [X] Determine player with largest share of an item
 - [ ] Notifications
-  - [ ] Subscribe to items
+  - [X] Subscribe to items
   - [ ] Get notifications from subscriptions
   - [ ] Cancel old subscriptions
+  - [ ] Cancel checks with no subscriptions
 - [X] See tracked items
 - [ ] API
   - [X] API JSON endpoint
@@ -88,6 +89,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [ ] API rate-limiting
   - [ ] API endpoint for entire realm's items
   - [ ] API endpoint for item across all realms
+  - [ ] API endpoint for owner of item
 - [ ] Security
   - [ ] Require HTTPS
   - [ ] Access to page support scripts

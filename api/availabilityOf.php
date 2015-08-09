@@ -33,7 +33,7 @@ if ($time == '')
     'time not found in url (' . $urlO . ')'
   );
 
-$tokenSearch = $tokenExist = $controller->select('apis', ['token' => $token]);
+$tokenSearch = $tokenExist = $controller->select('api_subscriptions', ['token' => $token]);
 $tokenExist = @count($tokenExist) === 1 ? true : false;
 if (!$tokenExist)
   throw new Exception(
