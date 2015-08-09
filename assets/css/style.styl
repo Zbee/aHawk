@@ -115,7 +115,7 @@ input[type='email'], input[type='email']:focus
   body
     padding 50px
   #main
-    width 40%
+    width 60%
   input[type='text'], input[type='text']:focus,
   input[type='number'], input[type='number']:focus,
   input[type='email'], input[type='email']:focus
@@ -132,10 +132,14 @@ input[type='email'], input[type='email']:focus
     position absolute
     bottom 0px
     right 0px
+@media screen and (min-width: 1300px)
+  #main
+    width 40%
 @media screen and (max-width: 500px)
   #main
     box-shadow none
     padding none
+    width 90%
   .hidden-xs
     display none !important
 .muted, .disabled
