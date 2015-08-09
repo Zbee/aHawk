@@ -128,7 +128,7 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
   - [ ] Configuration for user accounts instead of anonymous subscriptions
   - [ ] WoW Addon that notifies you in-game when an item is available
   - [ ] Recreate style that capitalizes on the hawk, is night-friendly, and 
-  minimzes clicks and searching
+  minimizes clicks and searching
 - [ ] Final
   - [ ] Make sure everything is standardized
   - [ ] Write tests
