@@ -3,6 +3,12 @@
 <!DOCTYPE html>
 <html>
   <header>
+    <meta charset="UTF-8">
+
+    <meta name="author" content="Zbee">
+    <meta name="description"
+      content="A World of Warcraft Auction House availability checker">
+
     <title>aHawk</title>
 
     <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
@@ -43,7 +49,7 @@
         <a href='https://blizzard.com'>Blizzard</a>
       </span>
     </div>
-    
+
     <img src='/assets/img/side.png' id='hawk'>
 
   </body>
