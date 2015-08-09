@@ -32,7 +32,7 @@ function wowCur($amount, $type = false, $pad = false, $nfat = false) {
   }
 }
 
-$bgColor = file_get_contents('../assets/css/style.styl', null, null, 119, 7);
+$bgColor = file_get_contents('../assets/css/style.styl', null, null, 95, 7);
 
 $itemID = intval($_POST['item']);
 $item = strip_tags(str_replace('\'', '&#39;', $_POST['itemName']));
