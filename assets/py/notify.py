@@ -80,12 +80,15 @@ for check in checks:
             email = emails[link][0]
             msg = MIMEText(
               "Hello,\nCurrently there are " + str(realms[realm][item][2])
-                + " " + itemName + " available on " + realm + ".\n\nYou have "
-                + "received this email because you, or someone pretending to "
-                + "be you, signed this email address up for notifications on "
-                + "aHawk.\nIf this was not you, then you can unsubscribe using "
-                + "this link: https://ahawk.zbee.me/sub/unsubscribe.php?token="
-                + emails[link][1] + "\nWe apologize for any inconvenience."
+                + " " + itemName + " available on " + realm + ".\nYou can get "
+                + "more information about this item here: https://ahawk.zbee.me"
+                + "/items?item=" + str(item) + "&realm=" + realm + "\n\nYou "
+                + "have received this email because you, or someone pretending "
+                + "to be you, signed this email address up for notifications "
+                + "on aHawk.\nIf this was not you, then you can unsubscribe "
+                + "using this link: https://ahawk.zbee.me/sub/unsubscribe.php?"
+                + "token=" + emails[link][1] + "\nWe apologize for any "
+                + "inconvenience."
             )
             msg['Subject'] = itemName + " is now available on WoW"
             msg['From'] = "noreply@ahawk.zbee.me"
