@@ -73,7 +73,7 @@ for realm, items in byRealm.iteritems():
     try:
       json = opener.open(req)
       data = simplejson.load(json)
-      auctions = data["auctions"]["auctions"]
+      auctions = data["auctions"]
       byStack = {}
       lowestPricePer = {}
       owner = {}
