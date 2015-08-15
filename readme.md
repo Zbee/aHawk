@@ -47,8 +47,8 @@ and a way to compile [Stylus](https://learnboost.github.io/stylus).
 2. Get a [Battle.net API key](https://dev.battle.net/member/register).
 3. Configure `aHawk/assets/php/config.php`.
 4. Put the aHawk source onto your server.
-5. Add `aHawk/assets/php/cron.php` to your cron jobs, running it between every 
-1min and `checkEvery`min (cron.php will only perform checks as often as 
+5. Add `aHawk/assets/py/cron.py` to your cron jobs, running it between every 
+1min and `checkEvery`min (cron.py will only perform checks as often as 
 `checkEvery` minutes anyways).
 6. Run the list generators in `aHawk/assets/py` (realms and items).
 
