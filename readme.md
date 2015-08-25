@@ -34,23 +34,24 @@ the last two checks.
   - RSS feed with the current availability of the item
   - *note* /api/`realm name`/`item id`.rss
   - *note* not a subscription option; return the same as /availabilityOf/ but 
-  only allows now; can be used for RSS displays or triggering IFTTT RSS recipes
+  only allows `now` for time; can be used for RSS displays or triggering IFTTT RSS recipes
 - **JSON**
   - JSON encoded current availability of the item
   - *note* /api/`realm name`/`item id`.json
   - *note* not a subscription option; return the same as /availabilityOf/ but 
-  only allows now; can be used in a custom application
+  only allows `now` for time; can be used in a custom application
 
 ##Setup
 1. Have Python (2.7 tested), PHP (5.5 tested), the ability to make cron jobs, 
 and a way to compile [Stylus](https://learnboost.github.io/stylus).
 2. Get a [Battle.net API key](https://dev.battle.net/member/register).
 3. Configure `aHawk/assets/php/config.php`.
-4. Put the aHawk source onto your server.
-5. Add `aHawk/assets/py/cron.py` to your cron jobs, running it between every 
+4. Compile the Stylus (`stylus -c` in `aHawk/assets/css` directory)
+5. Put the aHawk source onto your server.
+6. Add `aHawk/assets/py/cron.py` to your cron jobs, running it between every 
 1min and `checkEvery`min (cron.py will only perform checks as often as 
 `checkEvery` minutes anyways).
-6. Run the list generators in `aHawk/assets/py` (realms and items).
+7. Run the list generators in `aHawk/assets/py` (realms and items).
 
 ##Attribution
 aHawk was made in 2015 by Ethan Henderson (Zbee) &lt;ethan@zbee.me>
