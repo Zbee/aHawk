@@ -71,9 +71,10 @@ class controller {
 
     if (!file_exists($data)) return 'no such table';
 
-    $curID = file_get_contents($data, null, null, -512, 512);
-    $curID = end(explode("\n", $curID));
-    $curID = intval(explode(',', $curID)[0]);
+    $curID = file_get_contents($data);
+    $curID = explode("\n", $curID);
+    array_pop($curID);
+    $curID = intval(explode(',', end($curID))[0]);
 
     return $curID;
   }
@@ -111,11 +112,7 @@ class controller {
       $append[$col] = $insert[$col];
     }
 
-    $curID = file_get_contents($data, null, null, -512, 512);
-    $curID = explode("\n", $curID);
-    if ($curID[count($curID)-1] == "") array_pop($curID);
-    $curID = explode(',', end($curID));
-    $curID = intval($curID[0]);
+    $curID = $this->curID($table);
 
     $append = $curID+1 . ',' . implode(',', $append) . "\n";
 
