@@ -113,7 +113,7 @@ class controller {
 
     $curID = file_get_contents($data, null, null, -512, 512);
     $curID = explode("\n", $curID);
-    array_pop($curID);
+    if ($curID[count($curID)-1] == "") array_pop($curID);
     $curID = explode(',', end($curID));
     $curID = intval($curID[0]);
 
