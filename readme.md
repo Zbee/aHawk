@@ -97,9 +97,9 @@ it'd be great if you'd link to this repo); but, I do have an instance running at
 - [ ] Security
   - [X] Require HTTPS
   - [ ] Access to page support scripts
-  - [ ] Access to Python
-  - [ ] Access to PHP
-  - [ ] Access to Data
+  - [X] Access to Python
+  - [X] Access to PHP
+  - [X] Access to Data
   - [ ] Access to Logs
   - [ ] Bots on non-api pages
   - [ ] reCAPTCHA on forms
