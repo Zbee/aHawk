@@ -1,6 +1,8 @@
 <?php
 require(__DIR__ . '/../../assets/php/config.php');
 
+$error = ' ';
+
 #Require identifier in url
 if (!isset($_GET['ident']))
   throw new Exception('You must follow the link in your email ' . __LINE__);
@@ -8,11 +10,17 @@ if (!isset($_GET['ident']))
 #Check provided identifier
 $id = str_replace('api sub', '', base64_decode($_GET['ident']));
 $search = $controller->select('api_subscriptions', ['id' => $id]);
-var_dump(!is_array($search));
-var_dump(count($search) !== 1);
-var_dump(!is_array($search) && count($search) === 1);
-if (!is_array($search) && count($search) === 1)
+if (!is_array($search) || count($search) !== 1)
   throw new Exception('Not a valid link for IP Management ' . __LINE__);
+
+#Check provided hash
+if (isset($_POST['hash'])) {
+  try {
+    require('processForm.php');
+  } catch (Exception $e) {
+    $error = '<div class="alert">' . $e->getMessage() .  ' </div><br>';
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +45,12 @@ if (!is_array($search) && count($search) === 1)
 
     <div id='main'>
       <h1><a href="/">aHawk</a> :: <a href="/api/">API</a> :: IP Management</h1>
+      <?=$error?>
       API IP Management is for subscribers to items via the the API notification
       option to control access to the API using their API hash.
       <br><br>
+
+      <?php if (!isset($_COOKIE['aHash']) && $error !== ''): ?>
       Please enter your your API hash to gain access to your management screen.
 
       <br><br>
@@ -55,6 +66,11 @@ if (!is_array($search) && count($search) === 1)
           ]
         </b>
       </form>
+
+      <?php else: ?>
+      Welcome.
+
+      <?php endif; ?>
       <br><br>
       <span class='muted'>
         Made with &lt;3 by <a href='https://keybase.io/zbee'>Zbee</a>,
