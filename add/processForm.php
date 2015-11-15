@@ -15,11 +15,6 @@ if (!isset($_POST['subIFTTTKey']))
 if (!isset($_POST['subAPIEmail'])) 
   throw new Exception('Form was tampered with ' . __LINE__);
 
-#Replace their data (without any scripts) if the form wasn't tampered with
-$repForm = [];
-foreach ($_POST as $key => $post)
-  $repForm[$key] = strip_tags(str_replace('\'', '&#39;', $post));
-
 #Can't let either of these be empty for sure
 if ($_POST['itemID'] == '') 
   throw new Exception('Item ID cannot be empty ' . __LINE__);
