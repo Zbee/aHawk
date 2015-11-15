@@ -1,7 +1,7 @@
 import simplejson, urllib2, smtplib
 from email.mime.text import MIMEText
 
-checks = open("../data/checks.dat", "r")
+checks = open("/var/www/ahawk/assets/data/checks.dat", "r")
 checks = checks.readlines()
 checks.pop(0)
 
@@ -17,11 +17,11 @@ for check in checks:
     if item not in realms[realm]:
       realms[realm][item] = [False, False, False]
 
-check1 = open("../data/checks/check1.dat", "r")
+check1 = open("/var/www/ahawk/assets/data/checks/check1.dat", "r")
 check1 = simplejson.load(check1)
-check2 = open("../data/checks/check2.dat", "r")
+check2 = open("/var/www/ahawk/assets/data/checks/check2.dat", "r")
 check2 = simplejson.load(check2)
-check3 = open("../data/checks/check3.dat", "r")
+check3 = open("/var/www/ahawk/assets/data/checks/check3.dat", "r")
 check3 = simplejson.load(check3)
 
 for realm, items in realms.iteritems():
@@ -39,11 +39,11 @@ for realm, items in realms.iteritems():
         True, False, check1[realm][str(item)]["quantity"][0]
       ]
 
-subscriptions = open("../data/subscriptions.dat", "r")
+subscriptions = open("/var/www/ahawk/assets/data/subscriptions.dat", "r")
 subscriptions = subscriptions.readlines()
 subscriptions.pop(0)
 
-emailS = open("../data/email_subscriptions.dat", "r")
+emailS = open("/var/www/ahawk/assets/data/email_subscriptions.dat", "r")
 emailS = emailS.readlines()
 emailS.pop(0)
 
@@ -52,7 +52,7 @@ for email in emailS:
   vals = email.split(",")
   emails[int(vals[0])] = [vals[1], vals[2].split("\r")[0].split("\n")[0]]
 
-iftttS = open("../data/ifttt_subscriptions.dat", "r")
+iftttS = open("/var/www/ahawk/assets/data/ifttt_subscriptions.dat", "r")
 iftttS = iftttS.readlines()
 iftttS.pop(0)
 
@@ -74,7 +74,7 @@ for check in checks:
         check = int(vals[1])
         if checkId == check:
           link = int(vals[3])
-          itemName = open("../data/items/" + str(item) + ".dat", "r")
+          itemName = open("/var/www/ahawk/assets/data/items/" + str(item) + ".dat", "r")
           itemName = itemName.readlines()[0]
           if method == 1:
             email = emails[link][0]
