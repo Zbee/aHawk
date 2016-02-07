@@ -1,8 +1,14 @@
 import os, subprocess, sys, argparse, time
 
 #Setup arguments
-parser = argparse.ArgumentParser(description="Manages downloading of data on every item in WoW")
-parser.add_argument("--force", help="If data download should be forced (false)", nargs=1)
+parser = argparse.ArgumentParser(
+  description="Manages downloading of data on every item in WoW"
+)
+parser.add_argument(
+  "--force",
+  help="If data download should be forced (false)",
+  nargs=1
+)
 args = parser.parse_args()
 
 force = False
@@ -18,7 +24,8 @@ justMade = False
 if not os.path.exists("/var/www/ahawk/assets/data/checks/"):
   os.makedirs("/var/www/ahawk/assets/data/checks")
   for x in xrange(1,(60/checkEvery-1)*24):
-    open("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "a").close()
+    open("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "a")
+      .close()
   justMade = True
 
 #Getting age of last check
@@ -27,4 +34,6 @@ lastMod = os.stat("/var/www/ahawk/assets/data/checks/check1.dat").st_mtime
 #If the last check is old, the user is forcing this, or the system just started
 if lastMod < time.time()-checkEvery*60 or force or justMade:
   #Start the checking script
-  process = subprocess.Popen([sys.executable, "/var/www/ahawk/assets/py/checkers.py"])
+  process = subprocess.Popen(
+    [sys.executable, "/var/www/ahawk/assets/py/checkers.py"]
+  )
