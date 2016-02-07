@@ -11,11 +11,29 @@ doFrom = 1
 doTo = 150000
 
 #Setup arguments
-parser = argparse.ArgumentParser(description="Downloads data on every item in WoW")
-parser.add_argument("--debug", help="If debug info should be shown (false)", nargs=1)
-parser.add_argument("--not-found-limit", help="The number of 404's you can get in a row before quitting (250)", nargs=1)
-parser.add_argument("--do-from", help="The WoW item ID to start at (1)", nargs=1)
-parser.add_argument("--do-to", help="The WoW item ID to stop at (150000)", nargs=1)
+parser = argparse.ArgumentParser(
+  description="Downloads data on every item in WoW"
+)
+parser.add_argument(
+  "--debug",
+  help="If debug info should be shown (false)",
+  nargs=1
+)
+parser.add_argument(
+  "--not-found-limit",
+  help="The number of 404's you can get in a row before quitting (250)",
+  nargs=1
+)
+parser.add_argument(
+  "--do-from",
+  help="The WoW item ID to start at (1)",
+  nargs=1
+)
+parser.add_argument(
+  "--do-to",
+  help="The WoW item ID to stop at (150000)",
+  nargs=1
+)
 
 args = parser.parse_args()
 
@@ -52,7 +70,11 @@ def updateProgress(progress, status, notFounds, newNotFounds, notFoundInRow):
   if not debug:
     text = "\rPercent: [{0}] {1}% Doing: {2}".format(bar, percentage, status)
   else:
-    text = "\rPercent: [{0}] {1}% Doing: {2}, 404s: {3}, new 404s: {4}, 404 in row: {5}".format(bar, percentage, status, notFounds, newNotFounds, notFoundInRow)
+    text = "\rPercent: [{0}] {1}% Doing: {2}, 404s: {3}, new 404s: {4}, "
+    text += "404s in row: {5}"
+    text = text.format(
+      bar, percentage, status, notFounds, newNotFounds, notFoundInRow
+    )
   sys.stdout.write(text)
   sys.stdout.flush()
 
@@ -72,6 +94,8 @@ if debug:
 
 #Setting up the timestamped files (so stuff isn't overwritten whilst running)
 os.mkdir("../data/items" + startTime + "/")
+
+#Going through each item
 for x in xrange(doFrom,doTo+1):
   #Make sure the 404 file exists
   if not os.path.isfile("404s.dat"):
@@ -89,7 +113,7 @@ for x in xrange(doFrom,doTo+1):
     #If the number of 404's in a row exceeds the limit
     if len(notFoundInRow[:-2].split(",")) >= notFoundLimit:
       #Stop the loop, because that means we're at the end of WoW items
-      print "\nReached the end of valid items in WoW. (stopped at " + status + ")"
+      print "\nReached the end of valid WoW items. (stopped at " + status + ")"
       break
     #If we haven't exceeded that limit
     else:
@@ -99,7 +123,7 @@ for x in xrange(doFrom,doTo+1):
         + blizzKey
       )
       opener = urllib2.build_opener()
-      #try opening the data received from the website and reading the json inside
+      #open the data received from the website and read the json (data worked)
       try:
         json = opener.open(req)
         data = simplejson.load(json)
@@ -111,7 +135,9 @@ for x in xrange(doFrom,doTo+1):
         #Note the name of the item
         status += ": " + data["name"]
         #Record the name and item ID
-        with open("../data/items" + startTime + "/" + str(x) + ".dat", "w") as indFile:
+        with open(
+          "../data/items" + startTime + "/" + str(x) + ".dat", "w"
+        ) as indFile:
           indFile.write(data["name"])
       #If the data from the website cannot be read (404, primarily)
       except urllib2.HTTPError as e:
@@ -126,12 +152,23 @@ for x in xrange(doFrom,doTo+1):
             notFoundInRow += status + ","
         pass
   #Always update the progress bar
-  updateProgress(float(x)/doTo, status, totalNFs, totalNewNFs, len(notFoundInRow[:-2].split(",")))
+  updateProgress(
+    float(x)/doTo,
+    status,
+    totalNFs,
+    totalNewNFs,
+    len(notFoundInRow[:-2].split(","))
+  )
 
 #If an old items directory and list exist
 if os.path.isdir("../data/items"):
-  oldSize = sum(os.path.getsize(f) for f in os.listdir("../data/items") if os.path.isfile(f))
-  newSizeSize = sum(os.path.getsize(f) for f in os.listdir("../data/items" + startTime) if os.path.isfile(f))
+  oldSize = sum(
+    os.path.getsize(f) for f in os.listdir("../data/items") if os.path.isfile(f)
+  )
+  newSize = sum(
+    os.path.getsize(f) for f in os.listdir("../data/items" + startTime)
+    if os.path.isfile(f)
+  )
   #If the new list is bigger than the old one
   if newSize > oldSize - 1024:
     #Remove the old directory
