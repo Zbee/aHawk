@@ -8,8 +8,14 @@ output = {}
 byRealm = {}
 
 #Setup arguments
-parser = argparse.ArgumentParser(description="Downloads data on every item in WoW")
-parser.add_argument("--debug", help="If debug info should be shown (false)", nargs=1)
+parser = argparse.ArgumentParser(
+  description="Downloads data on every item in WoW"
+)
+parser.add_argument(
+  "--debug",
+  help="If debug info should be shown (false)",
+  nargs=1
+)
 args = parser.parse_args()
 
 if args.debug is not None: debug = True
@@ -141,14 +147,29 @@ for x in xrange((60/checkEvery-1)*24, 0, -1):
     if not os.path.isfile("/var/www/ahawk/assets/data/checks/check1.dat"):
       open("/var/www/ahawk/assets/data/checks/check1.dat", "a").close()
     with open("/var/www/ahawk/assets/data/checks/check1.dat", "w") as file:
-      file.write(simplejson.dumps(output, separators=(',', ':'), sort_keys=True))
-  if not os.path.isfile("/var/www/ahawk/assets/data/checks/check" + str(int(x)-1) + ".dat"):
+      file.write(
+        simplejson.dumps(output, separators=(',', ':'), sort_keys=True)
+      )
+  if not os.path.isfile(
+    "/var/www/ahawk/assets/data/checks/check" + str(int(x)-1) + ".dat"
+  ):
     pass
   else:
-    if not os.path.isfile("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat"):
-      open("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "a").close()
-    with open("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "w") as file:
-      curFile = open("/var/www/ahawk/assets/data/checks/check" + str(int(x)-1) + ".dat", "r")
+    if not os.path.isfile(
+      "/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat"
+    ):
+      open(
+        "/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat",
+        "a"
+      ).close()
+    with open(
+      "/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat",
+      "w"
+    ) as file:
+      curFile = open(
+        "/var/www/ahawk/assets/data/checks/check" + str(int(x)-1) + ".dat",
+        "r"
+      )
       file.write(curFile.read())
 
 #Start the notification script
