@@ -18,7 +18,7 @@ box-shadow()
   box-shadow arguments
 
 body
-  padding 0px
+  padding 0
   font 110% 'Roboto', sans-serif
   color fgColor
   background bgColor
@@ -91,12 +91,12 @@ a.none, a.none:hover
     display inline-block
     margin 0
 #main
-  margin 0px auto
-  border-radius 20px
-  padding 20px
+  margin 0 auto
+  border-radius 20
+  padding 20
   width 70%
   height auto
-  box-shadow 0px 0px 30px 1px fgColorBox
+  box-shadow 0 0 30 1px fgColorBox
   text-align center
 form
   display inline-block
@@ -108,18 +108,18 @@ input[type='email'], input[type='email']:focus
   background none
   padding 5px 15px
   margin 1px
-  box-shadow 0px 0px 3px 1px rgba(50, 50, 50, 0.2)
+  box-shadow 0 0 3px 1px rgba(50, 50, 50, 0.2)
 #hawk
   display none
 @media screen and (min-width: 980px)
   body
-    padding 50px
+    padding 50
   #main
     width 60%
   input[type='text'], input[type='text']:focus,
   input[type='number'], input[type='number']:focus,
   input[type='email'], input[type='email']:focus
-    width 300px
+    width 300
   .info
     .left
       width 25%
@@ -131,15 +131,15 @@ input[type='email'], input[type='email']:focus
   #hawk
     display block
     position fixed
-    bottom 0px
-    right 0px
+    bottom 0
+    right 0
 @media screen and (min-width: 1300px)
   #main
     width 40%
 @media screen and (max-width: 500px)
   #main
     box-shadow none
-    padding none
+    padding 0
     width 90%
   .hidden-xs
     display none !important
