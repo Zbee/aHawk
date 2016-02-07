@@ -1,5 +1,11 @@
-import simplejson, urllib2, smtplib
+import simplejson, urllib2, smtplib, os, sys
 from email.mime.text import MIMEText
+
+if (not os.path.isfile("/var/www/ahawk/assets/data/checks/check1.dat") or
+  not os.path.isfile("/var/www/ahawk/assets/data/checks/check2.dat") or
+  not os.path.isfile("/var/www/ahawk/assets/data/checks/check3.dat")):
+  print "Not enough checks are present to notify anyone"
+  sys.exit()
 
 checks = open("/var/www/ahawk/assets/data/checks.dat", "r")
 checks = checks.readlines()
