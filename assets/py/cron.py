@@ -24,8 +24,9 @@ justMade = False
 if not os.path.exists("/var/www/ahawk/assets/data/checks/"):
   os.makedirs("/var/www/ahawk/assets/data/checks")
   for x in xrange(1,(60/checkEvery-1)*24):
-    open("/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "a")
-      .close()
+    open(
+      "/var/www/ahawk/assets/data/checks/check" + str(x) + ".dat", "a"
+    ).close()
   justMade = True
 
 #Getting age of last check
