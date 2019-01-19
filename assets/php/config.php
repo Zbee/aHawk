@@ -15,7 +15,7 @@ define('blizzKey', '');
 define('emailNotifications', true);
 
 #Whether or not users can be notified using IFTTT's Maker
-define('iftttNotificaitons', true);
+define('iftttNotifications', true);
 
 #Whether or not the API can be accessed
 define('apiAccess', true);
