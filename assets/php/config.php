@@ -8,8 +8,9 @@ require_once(__DIR__ . '/controller.php');
 #Your website, no trailing slash (<website>/assets/php/cron.pp should be valid)
 define('website', 'http://example.com');
 
-#Your blizzard key (https://dev.battle.net/)
-define('blizzKey', '');
+#Your blizzard keys (https://develop.battle.net/)
+define('blizzID', '');
+define('blizzSec', '');
 
 #Whether or not users can be notified by email
 define('emailNotifications', true);
