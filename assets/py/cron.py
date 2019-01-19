@@ -21,7 +21,7 @@ if args.force is not None: force = True
 # Getting checkEvery from php config file
 config = open("/var/www/ahawk/assets/php/config.php", "r")
 config = config.readlines()
-checkEvery = int(config[23].split(", ")[1].split(")")[0])
+checkEvery = int(config[24].split(", ")[1].split(")")[0])
 
 # Set up the data/checks directory if the system is just starting
 justMade = False

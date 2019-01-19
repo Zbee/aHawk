@@ -6,9 +6,11 @@ import re
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.parse
+import urllib.request
 
 import simplejson
-import urllib.request
 
 # Variables for later
 startTime = str(time.strftime("%Y-%m-%dT%H%M"))
@@ -43,7 +45,7 @@ def stack_denotation(item, byStack):
                 byStack[item].items()
             )
         )
-        for stack, amount in ordered:
+        for stack, amount in ordered.items():
             total += int(stack) * int(amount)
             denotation += str(amount) + "x" + str(stack) + "+"
         return [total, denotation[:-1]]
@@ -51,16 +53,31 @@ def stack_denotation(item, byStack):
         return [0, "0x0"]
 
 
-# Getting blizzKey from php config file
+# Getting Blizzard keys from php config file
 config = open("/var/www/aHawk/assets/php/config.php", "r")
 config = config.readlines()
-blizzKey = config[11].split("'")[3]
-checkEvery = int(config[23].split(", ")[1].split(")")[0])
+blizzardID = config[11].split("'")[3]
+checkEvery = int(config[24].split(", ")[1].split(")")[0])
+blizzardSec = config[12].split("'")[3]
+
+# Getting an OAuth token
+data = {
+    "client_id"    : blizzardID,
+    "client_secret": blizzardSec,
+    "grant_type"   : "client_credentials"
+}
+data = urllib.parse.urlencode(data).encode('ascii')
+req = urllib.request.Request("https://us.battle.net/oauth/token", data)
+response = urllib.request.urlopen(req)
+json = simplejson.load(response)
+token = json['access_token']
 
 # Echoing settings for debug
 if debug:
-    print("Battle.net API key: " + blizzKey)
-    print("Starting at:        " + startTime)
+    print("Battle.net API ID:    " + blizzardID)
+    print("Battle.net API SEC:   " + blizzardSec)
+    print("Battle.net API Token: " + token)
+    print("Starting at:          " + startTime)
 
 checks = open("/var/www/aHawk/assets/data/checks.dat", "r")
 checks = checks.readlines()
@@ -77,20 +94,18 @@ for check in checks:
 for realm, items in byRealm.items():
     req = urllib.request.Request(
         "https://us.api.blizzard.com/wow/auction/data/" + realm.lower()
-        + "?locale=en_US&apikey=" + blizzKey
+        + "?locale=en_US&access_token=" + token
     )
-    opener = urllib.request.urlopen(req)
     try:
-        json = opener.read()
-        data = simplejson.load(json)
+        response = urllib.request.urlopen(req)
+        data = simplejson.load(response)
         lMod = int(data["files"][0]["lastModified"] / 1000)
         if debug:
-            print("Doing realm:        " + realm)
+            print("Doing realm:          " + realm)
         req = urllib.request.Request(data["files"][0]["url"])
-        opener = urllib.request.urlopen(req)
         try:
-            json = opener.read()
-            data = simplejson.load(json)
+            response = urllib.request.urlopen(req)
+            data = simplejson.load(response)
             auctions = data["auctions"]
             byStack = {}
             lowestPricePer = {}
@@ -158,9 +173,9 @@ for realm, items in byRealm.items():
                     "owns"          : ownsO
                 }
             output[realm]["time"] = lMod
-        except urllib.HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e)
-    except urllib.HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e)
 
 for x in range(int((60 / checkEvery - 1) * 24), 0, -1):
@@ -198,4 +213,4 @@ for x in range(int((60 / checkEvery - 1) * 24), 0, -1):
 subprocess.Popen([sys.executable, "notify.py"])
 
 if debug:
-    print("Finished at:        " + str(time.strftime("%Y-%m-%dT%H%M")))
+    print("Finished at:          " + str(time.strftime("%Y-%m-%dT%H%M")))
