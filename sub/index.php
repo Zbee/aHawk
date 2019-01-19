@@ -34,13 +34,12 @@ $itemName = file_get_contents(
 
 $error = '';
 
-if (isset($_POST['subEmail'])) {
+if (isset($_POST['subEmail']))
   try {
     require('processForm.php');
   } catch (Exception $e) {
     $error = '<div class="alert">' . $e->getMessage() .  ' </div><br>';
   }
-}
 ?>
 
 <!DOCTYPE html>

@@ -15,7 +15,7 @@ for ($x = 0; $x < $explodes+1; $x++)
 $urlO = $url = strip_tags(str_replace('\'', '&#39;', implode('/', $url)));
 $urL = strtolower($url);
 
-$argVals = [
+$argValues = [
   'json' => null,
   'availabilityOf' => 'available',
   'lowestPricePer' => 'lowestPricePer',
@@ -62,7 +62,7 @@ try {
 
   require 'checkRequired.php';
 
-  $args = [$item, $realm, $time, $argVals[$endpoint]];
+  $args = [$item, $realm, $time, $argValues[$endpoint]];
   $availability = $controller->availabilityOf(
     $args[0], $args[1], $args[2], $args[3]
   );

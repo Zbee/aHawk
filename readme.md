@@ -1,4 +1,4 @@
-#aHawk
+# aHawk
 A World of Warcraft auction house availability checker with an API and 
 notifications that works off of a dynamic list of items and realms.
 
@@ -10,7 +10,7 @@ for the list of realms and items; instead it periodically checks for updates to
 these lists and, because of this it supports WoW patches with little delay and 
 zero involvement.
 
-##Why
+## Why
 aHawk (should always be typed `aHawk`, should always be said `a hawk`, derives 
 from `Auction Hawker`) was built when I was playing WoW and had to buy some 
 profession reagents but I could only get other such sites to update me on the 
@@ -18,7 +18,7 @@ reagents' availability hourly (by writing a little program, they have no
 notification options), so I needed something that could update me more often 
 and that would be easier to add additional item monitors too.
 
-##Notifications
+## Notifications
 Notifications are issued when an item is available in a check and it wasn't in 
 the last two checks.
 
@@ -41,19 +41,20 @@ the last two checks.
   - *note* not a subscription option; return the same as /availabilityOf/ but 
   only allows `now` for time; can be used in a custom application
 
-##Setup
-1. Have Python (2.7 tested), PHP (5.5 tested), the ability to make cron jobs, 
+## Setup
+1. Have Python (3.5 tested), PHP (7.3 tested), the ability to make cron jobs, 
 and a way to compile [Stylus](https://learnboost.github.io/stylus).
-2. Get a [Battle.net API key](https://dev.battle.net/member/register).
-3. Configure `aHawk/assets/php/config.php`.
-4. Compile the Stylus (`stylus -c` in `aHawk/assets/css` directory)
-5. Put the aHawk source onto your server.
-6. Add `aHawk/assets/py/cron.py` to your cron jobs, running it between every 
+2. Have the required Python packages (simplejson)
+3. Get a [Battle.net API key](https://dev.battle.net/member/register).
+4. Configure `aHawk/assets/php/config.php`.
+5. Compile the Stylus (`stylus -c` in `aHawk/assets/css` directory)
+6. Put the aHawk source onto your server.
+7. Add `aHawk/assets/py/cron.py` to your cron jobs, running it between every 
 1min and `checkEvery`min (cron.py will only perform checks as often as 
 `checkEvery` minutes anyways).
-7. Run the list generators in `aHawk/assets/py` (realms and items).
+8. Run the list generators in `aHawk/assets/py` (realms and items).
 
-##Attribution
+## Attribution
 aHawk was made in 2015 by Ethan Henderson (Zbee) &lt;ethan@zbee.me>
 
 [Blizzard](https://blizzard.com) owns everything to do with the 
@@ -68,7 +69,7 @@ This is public domain, I don't care what you do with it (though if you use it,
 it'd be great if you'd link to this repo); but, I do have an instance running at 
 [ahawk.zbee.me](https://ahawk.zbee.me).
 
-##Current Progress
+## Current Progress
 - [X] Tracking items
   - [X] Add items
   - [X] Check on items

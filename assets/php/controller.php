@@ -5,8 +5,9 @@ class controller {
   #$controller->select('subscriptions', ['email'=>'bob@ex.com', 'check'=>18])
   #Select everything from the row in subscriptions where the email is bob@ex.com
   # and the subscription is for check #18
-  public function select ($table, $search, $debug = false) {
-    if (!is_array($search) && $search != '*') return '$search must be an array';
+  public function select (string $table, array $search, $debug = false) {
+    if (!is_array($search) && $search != '*')
+      return '$search must be an array';
 
     $data = explode('/', __DIR__);
     array_pop($data);
@@ -14,13 +15,15 @@ class controller {
     $data .= '/data';
     $data = $data . '/' . strtolower($table) . '.dat';
 
-    if (!file_exists($data)) return 'no such table';
+    if (!file_exists($data))
+      return 'no such table';
 
     $data = file_get_contents($data);
     $data = explode("\n", $data);
     array_pop($data);
 
-    if (count($data) < 2) return 'there is no data in that table';
+    if (count($data) < 2)
+      return 'there is no data in that table';
 
     $cols = explode(',', $data[0]);
     $cols = array_map('trim', $cols);
@@ -62,7 +65,7 @@ class controller {
 
   #$controller->curID('subscriptions')
   #Returns what the latest ID of the subscriptions table is
-  public function curID ($table) {
+  public function curID (string $table) {
     $data = explode('/', __DIR__);
     array_pop($data);
     $data = implode('/', $data);
@@ -81,8 +84,9 @@ class controller {
 
   #$controller->insert('subscriptions', ['email'=>'bob@ex.com', 'check'=>18])
   #Inserts a subscription where the email is bob@ex.com, and the check is #18
-  public function insert ($table, $insert) {
-    if (!is_array($insert)) return '$insert must be an array';
+  public function insert (string $table, array $insert) {
+    if (!is_array($insert))
+    return '$insert must be an array';
 
     $data = explode('/', __DIR__);
     array_pop($data);
@@ -121,7 +125,7 @@ class controller {
     return $curID+1;
   }
 
-  public function availabilityOf ($item, $realm, $time = false, $type = false) {
+  public function availabilityOf (int $item, string $realm, $time = false, $type = false) {
     $typeN = $type;
 
     $inADay = (60/checkEvery-1)*24;
@@ -138,7 +142,7 @@ class controller {
     if (!$itemExists) return '$item is is not an actual item';
 
     $realm = preg_replace('/[^a-zA-Z\'\-_ ]+/i', '', $realm)[0];
-    $item = $item + '';
+    $item = "$item";
 
     if (strtolower($time) === 'today') $time = 'today';
     if (is_numeric($time)) {

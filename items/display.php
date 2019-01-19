@@ -1,7 +1,7 @@
 <?php
 require(__DIR__ . '/../assets/php/config.php');
 
-function wowCur($amount, $type = false, $pad = false, $nfat = false) {
+function wowCur(int $amount, $type = false, $pad = false, $nfat = false) {
   //Currencies
   $g = floor($amount / 1e4); //Gold
   $s = floor($amount / 100); while ($s >= 100) { $s = ($s >= 100) ? $s - 100 : $s; } //Silver
@@ -15,19 +15,18 @@ function wowCur($amount, $type = false, $pad = false, $nfat = false) {
   }
   
   //Optional formatting
-  if ($nfat === true) {
+  if ($nfat === true)
     $g = number_format($g, 0);
-  }
   
   //Returning formatted result
-  if ($type === "g") {
-    return $g + "g";
-  } elseif ($type === "s") {
-    return $s + "s";
-  } elseif ($type === "c") {
-    return $c + "c";
-  } else {
-    $a = $g."g ".$s."s ".$c."c";
+  if ($type === "g")
+    return "{$g}g";
+  elseif ($type === "s")
+    return "{$s}s";
+  elseif ($type === "c")
+    return "{$c}c";
+  else {
+    $a = "{$g}g {$s}s {$c}c";
     return $a;
   }
 }
